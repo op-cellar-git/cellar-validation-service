@@ -1,0 +1,46 @@
+{
+	"zipName": "examplezip.zip",
+	"zipSize": "239Ko",
+	"structMaps": [
+		{
+			"structMapName": "s1",
+			"wemiElements":[
+				{
+					"psi":"jo/2017",
+					"type":"work",
+					"mdFile":"md_work.rdf"
+				},
+				{
+					"psi":"jo/2017.03",
+					"type":"expression",
+					"mdFile":"md_exp1.rdf"
+				}
+			]
+		},
+		{
+			"structMapName": "s2",
+			"wemiElements":[
+				{
+					"psi":"jo/2017",
+					"type":"work",
+					"mdFile":"md_work.rdf"
+				},
+				{
+					"psi":"jo/2017.0003",
+					"type":"expression",
+					"mdFile":"md_exp1.rdf"
+				},
+				{
+					"psi":"jo/2017.0003.01",
+					"type":"manifestation",
+					"mdFile":"md_manif1.rdf"
+				},
+				{
+					"psi":"jo/2017.03",
+					"type":"item",
+					"streamFile": "file.pdf"
+				}
+			]
+		}
+	]
+}
