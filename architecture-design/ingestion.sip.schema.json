@@ -1,0 +1,2083 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "validationConfig": {
+                "preLockValidation": [
+                    {
+                        "validationStepLabel": "unzip",
+                        "validationStepType": "unzip",
+                        "validationStepDescription": "unzip the zip package and validate it",
+                        "validationStepLoggingDebug": {
+                            "validationStepLoggingDebugStart": "Unzip validation step starts",
+                            "validationStepLoggingDebugEndSucess": "Unzip validation step success",
+                            "validationStepLoggingDebugEndFails": "Unzip validation step fails. See report.json for details."
+                        },
+                        "validationStepStructMapGlobalTreatement": true,
+                        "validationStepErrorsLevel": "errors"
+                    },
+                    {
+                        "validationStepType": "xsd",
+                        "validationStepDescription": "validate the xml file against METS1 and METS2",
+                        "validationStepLoggingDebug": {
+                            "validationStepLoggingDebugStart": "Mets validation step starts",
+                            "validationStepLoggingDebugEndSucess": "Mets validation step success",
+                            "validationStepLoggingDebugEndFails": "Mets validation step fails. See report.json for details."
+                        },
+                        "validationStepPredecessors": [
+                            "unzip"
+                        ],
+                        "validationStepStructMapGlobalTreatement": true,
+                        "validationStepErrorsLevel": "errors",
+                        "validationStepConfiguration": {
+                            "validationStepConfigurationInput": [
+                                {
+                                    "inputLabel": "mets",
+                                    "inputType": "manualFile",
+                                    "inputFile": "METS.xsd"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "validationStepLabel": "psi",
+                        "validationStepType": "psi",
+                        "validationStepDescription": "validate the psi",
+                        "validationStepLoggingDebug": {
+                            "validationStepLoggingDebugStart": "Psi validation step starts",
+                            "validationStepLoggingDebugEndSucess": "Psi validation step success",
+                            "validationStepLoggingDebugEndFails": "Psi validation step fails. See report.json for details."
+                        },
+                        "validationStepPredecessors": [
+                            "xsd"
+                        ],
+                        "validationStepStructMapGlobalTreatement": false,
+                        "validationStepErrorsLevel": "errors",
+                        "validationStepConfiguration": {
+                            "validationStepConfigurationInput": [
+                                {
+                                    "inputLabel": "psi",
+                                    "inputType": "manualFile",
+                                    "inputFile": "psi.xml"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "validationStepLabel": "hrefs",
+                        "validationStepType": "hrefs",
+                        "validationStepDescription": "validates hrefs of the files",
+                        "validationStepLoggingDebug": {
+                            "validationStepLoggingDebugStart": "Hrefs validation step starts",
+                            "validationStepLoggingDebugEndSucess": "Hrefs validation step success",
+                            "validationStepLoggingDebugEndFails": "Hrefs validation step fails. See report.json for details."
+                        },
+                        "validationStepPredecessors": [
+                            "hrefs"
+                        ],
+                        "validationStepStructMapGlobalTreatement": false,
+                        "validationStepErrorsLevel": "errors"
+                    },
+                    {
+                        "validationStepLabel": "checksums",
+                        "validationStepType": "checksums",
+                        "validationStepDescription": "validate the chesksums",
+                        "validationStepLoggingDebug": {
+                            "validationStepLoggingDebugStart": "Hrefs validation step starts",
+                            "validationStepLoggingDebugEndSucess": "Hrefs validation step success",
+                            "validationStepLoggingDebugEndFails": "Hrefs validation step fails. See report.json for details."
+                        },
+                        "validationStepPredecessors": [
+                            "hrefs"
+                        ],
+                        "validationStepStructMapGlobalTreatement": false,
+                        "validationStepErrorsLevel": "errors"
+                    },
+                    {
+                        "validationStepLabel": "mimeType",
+                        "validationStepType": "mimeType",
+                        "validationStepDescription": "validates mimeType of the files",
+                        "validationStepLoggingDebug": {
+                            "validationStepLoggingDebugStart": "MimeType validation step starts",
+                            "validationStepLoggingDebugEndSucess": "MimeType validation step success",
+                            "validationStepLoggingDebugEndFails": "MimeType validation step fails. See report.json for details."
+                        },
+                        "validationStepPredecessors": [
+                            "xsd"
+                        ],
+                        "validationStepStructMapGlobalTreatement": false,
+                        "validationStepErrorsLevel": "errors",
+                        "validationStepConfiguration": {
+                            "validationStepConfigurationInput": [
+                                {
+                                    "inputLabel": "file-type",
+                                    "inputType": "notice",
+                                    "inputUrl": "&resource/authority/file-type"
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "postLockValidation": [
+                    {
+                        "validationStepLabel": "URICheckingDmd",
+                        "validationStepType": "URIChecking",
+                        "validationStepDescription": "Uri checking of the dmd",
+                        "validationStepLoggingDebug": {
+                            "validationStepLoggingDebugStart": "DMD Uri checking validation step starts",
+                            "validationStepLoggingDebugEndSucess": "DMD Uri checking validation step success",
+                            "validationStepLoggingDebugEndFails": "DMD Uri checking validation step fails. See report.json for details."
+                        },
+                        "validationStepErrorsLevel": "errors",
+                        "validationStepConfiguration": {
+                            "validationStepPreparation": {
+                                "inferred": false,
+                                "merged": false
+                            },
+                            "validationStepConfigurationInput": [
+                                {
+                                    "inputLabel": "regex",
+                                    "inputType": "regexDmd",
+                                    "inputRegex": "htt://&[cellar|jo|celex]"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "validationStepLabel": "URICheckingTmd",
+                        "validationStepType": "URIChecking",
+                        "validationStepDescription": "Uri checking of the tmd",
+                        "validationStepLoggingDebug": {
+                            "validationStepLoggingDebugStart": "TMD Uri checking validation step starts",
+                            "validationStepLoggingDebugEndSucess": "TMD Uri checking validation step success",
+                            "validationStepLoggingDebugEndFails": "TMD Uri checking validation step fails. See report.json for details."
+                        },
+                        "validationStepErrorsLevel": "errors",
+                        "validationStepConfiguration": {
+                            "validationStepPreparation": {
+                                "inferred": false,
+                                "merged": false
+                            },
+                            "validationStepConfigurationInput": [
+                                {
+                                    "inputLabel": "regexTmd",
+                                    "inputType": "regex",
+                                    "inputRegex": "htt://&[cellar|jo|celex]"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "validationStepLabel": "shaclDmd",
+                        "validationStepType": "shacl",
+                        "validationStepDescription": "Shacl validation of the dmd",
+                        "validationStepLoggingDebug": {
+                            "validationStepLoggingDebugStart": "DMD shacl validation step starts",
+                            "validationStepLoggingDebugEndSucess": "DMD shacl validation step success",
+                            "validationStepLoggingDebugEndFails": "DMD shacl validation step fails. See report.json for details."
+                        },
+                        "validationStepPredecessors": [
+                            "URICheckingDmd"
+                        ],
+                        "validationStepErrorsLevel": "errors",
+                        "validationStepConfiguration": {
+                            "validationStepPreparation": {
+                                "inferred": true,
+                                "merged": true
+                            },
+                            "validationStepConfigurationInput": [
+                                {
+                                    "inputLabel": "shapesDmd",
+                                    "inputType": "automaticUpdatedFile",
+                                    "inputFile": "shapesDmd.rdf"
+                                },
+                                {
+                                    "inputLabel": "extendedModelDmd",
+                                    "inputType": "automaticUpdatedFile",
+                                    "inputFile": "extendedModelDmd.rdf"
+                                },
+                                {
+                                    "inputLabel": "inferredCDM",
+                                    "inputType": "automaticUpdatedFile",
+                                    "inputFile": "inferredCDM.rdf"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "validationStepLabel": "shaclTmd",
+                        "validationStepType": "shacl",
+                        "validationStepDescription": "Shacl validation of the tmd",
+                        "validationStepLoggingDebug": {
+                            "validationStepLoggingDebugStart": "TMD shacl validation step starts",
+                            "validationStepLoggingDebugEndSucess": "TMD shacl validation step success",
+                            "validationStepLoggingDebugEndFails": "TMD shacl validation step fails. See report.json for details."
+                        },
+                        "validationStepPredecessors": [
+                            "URICheckingTmd"
+                        ],
+                        "validationStepErrorsLevel": "errors",
+                        "validationStepConfiguration": {
+                            "validationStepPreparation": {
+                                "inferred": true,
+                                "merged": true
+                            },
+                            "validationStepConfigurationInput": [
+                                {
+                                    "inputLabel": "shapesTmd",
+                                    "inputType": "automaticUpdatedFile",
+                                    "inputFile": "shapesTmd.rdf"
+                                },
+                                {
+                                    "inputLabel": "extendedModelTmd",
+                                    "inputType": "automaticUpdatedFile",
+                                    "inputFile": "extendedModelTmd.rdf"
+                                },
+                                {
+                                    "inputLabel": "inferredTDM",
+                                    "inputType": "automaticUpdatedFile",
+                                    "inputFile": "inferredTDM.rdf"
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ],
+    "required": [
+        "validationConfig"
+    ],
+    "additionalProperties": true,
+    "properties": {
+        "validationConfig": {
+            "$id": "#/properties/validationConfig",
+            "type": "object",
+            "title": "The validationConfig schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "examples": [
+                {
+                    "preLockValidation": [
+                        {
+                            "validationStepLabel": "unzip",
+                            "validationStepType": "unzip",
+                            "validationStepDescription": "unzip the zip package and validate it",
+                            "validationStepLoggingDebug": {
+                                "validationStepLoggingDebugStart": "Unzip validation step starts",
+                                "validationStepLoggingDebugEndSucess": "Unzip validation step success",
+                                "validationStepLoggingDebugEndFails": "Unzip validation step fails. See report.json for details."
+                            },
+                            "validationStepStructMapGlobalTreatement": true,
+                            "validationStepErrorsLevel": "errors"
+                        },
+                        {
+                            "validationStepType": "xsd",
+                            "validationStepDescription": "validate the xml file against METS1 and METS2",
+                            "validationStepLoggingDebug": {
+                                "validationStepLoggingDebugStart": "Mets validation step starts",
+                                "validationStepLoggingDebugEndSucess": "Mets validation step success",
+                                "validationStepLoggingDebugEndFails": "Mets validation step fails. See report.json for details."
+                            },
+                            "validationStepPredecessors": [
+                                "unzip"
+                            ],
+                            "validationStepStructMapGlobalTreatement": true,
+                            "validationStepErrorsLevel": "errors",
+                            "validationStepConfiguration": {
+                                "validationStepConfigurationInput": [
+                                    {
+                                        "inputLabel": "mets",
+                                        "inputType": "manualFile",
+                                        "inputFile": "METS.xsd"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "validationStepLabel": "psi",
+                            "validationStepType": "psi",
+                            "validationStepDescription": "validate the psi",
+                            "validationStepLoggingDebug": {
+                                "validationStepLoggingDebugStart": "Psi validation step starts",
+                                "validationStepLoggingDebugEndSucess": "Psi validation step success",
+                                "validationStepLoggingDebugEndFails": "Psi validation step fails. See report.json for details."
+                            },
+                            "validationStepPredecessors": [
+                                "xsd"
+                            ],
+                            "validationStepStructMapGlobalTreatement": false,
+                            "validationStepErrorsLevel": "errors",
+                            "validationStepConfiguration": {
+                                "validationStepConfigurationInput": [
+                                    {
+                                        "inputLabel": "psi",
+                                        "inputType": "manualFile",
+                                        "inputFile": "psi.xml"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "validationStepLabel": "hrefs",
+                            "validationStepType": "hrefs",
+                            "validationStepDescription": "validates hrefs of the files",
+                            "validationStepLoggingDebug": {
+                                "validationStepLoggingDebugStart": "Hrefs validation step starts",
+                                "validationStepLoggingDebugEndSucess": "Hrefs validation step success",
+                                "validationStepLoggingDebugEndFails": "Hrefs validation step fails. See report.json for details."
+                            },
+                            "validationStepPredecessors": [
+                                "hrefs"
+                            ],
+                            "validationStepStructMapGlobalTreatement": false,
+                            "validationStepErrorsLevel": "errors"
+                        },
+                        {
+                            "validationStepLabel": "checksums",
+                            "validationStepType": "checksums",
+                            "validationStepDescription": "validate the chesksums",
+                            "validationStepLoggingDebug": {
+                                "validationStepLoggingDebugStart": "Hrefs validation step starts",
+                                "validationStepLoggingDebugEndSucess": "Hrefs validation step success",
+                                "validationStepLoggingDebugEndFails": "Hrefs validation step fails. See report.json for details."
+                            },
+                            "validationStepPredecessors": [
+                                "hrefs"
+                            ],
+                            "validationStepStructMapGlobalTreatement": false,
+                            "validationStepErrorsLevel": "errors"
+                        },
+                        {
+                            "validationStepLabel": "mimeType",
+                            "validationStepType": "mimeType",
+                            "validationStepDescription": "validates mimeType of the files",
+                            "validationStepLoggingDebug": {
+                                "validationStepLoggingDebugStart": "MimeType validation step starts",
+                                "validationStepLoggingDebugEndSucess": "MimeType validation step success",
+                                "validationStepLoggingDebugEndFails": "MimeType validation step fails. See report.json for details."
+                            },
+                            "validationStepPredecessors": [
+                                "xsd"
+                            ],
+                            "validationStepStructMapGlobalTreatement": false,
+                            "validationStepErrorsLevel": "errors",
+                            "validationStepConfiguration": {
+                                "validationStepConfigurationInput": [
+                                    {
+                                        "inputLabel": "file-type",
+                                        "inputType": "notice",
+                                        "inputUrl": "&resource/authority/file-type"
+                                    }
+                                ]
+                            }
+                        }
+                    ],
+                    "postLockValidation": [
+                        {
+                            "validationStepLabel": "URICheckingDmd",
+                            "validationStepType": "URIChecking",
+                            "validationStepDescription": "Uri checking of the dmd",
+                            "validationStepLoggingDebug": {
+                                "validationStepLoggingDebugStart": "DMD Uri checking validation step starts",
+                                "validationStepLoggingDebugEndSucess": "DMD Uri checking validation step success",
+                                "validationStepLoggingDebugEndFails": "DMD Uri checking validation step fails. See report.json for details."
+                            },
+                            "validationStepErrorsLevel": "errors",
+                            "validationStepConfiguration": {
+                                "validationStepPreparation": {
+                                    "inferred": false,
+                                    "merged": false
+                                },
+                                "validationStepConfigurationInput": [
+                                    {
+                                        "inputLabel": "regex",
+                                        "inputType": "regexDmd",
+                                        "inputRegex": "htt://&[cellar|jo|celex]"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "validationStepLabel": "URICheckingTmd",
+                            "validationStepType": "URIChecking",
+                            "validationStepDescription": "Uri checking of the tmd",
+                            "validationStepLoggingDebug": {
+                                "validationStepLoggingDebugStart": "TMD Uri checking validation step starts",
+                                "validationStepLoggingDebugEndSucess": "TMD Uri checking validation step success",
+                                "validationStepLoggingDebugEndFails": "TMD Uri checking validation step fails. See report.json for details."
+                            },
+                            "validationStepErrorsLevel": "errors",
+                            "validationStepConfiguration": {
+                                "validationStepPreparation": {
+                                    "inferred": false,
+                                    "merged": false
+                                },
+                                "validationStepConfigurationInput": [
+                                    {
+                                        "inputLabel": "regexTmd",
+                                        "inputType": "regex",
+                                        "inputRegex": "htt://&[cellar|jo|celex]"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "validationStepLabel": "shaclDmd",
+                            "validationStepType": "shacl",
+                            "validationStepDescription": "Shacl validation of the dmd",
+                            "validationStepLoggingDebug": {
+                                "validationStepLoggingDebugStart": "DMD shacl validation step starts",
+                                "validationStepLoggingDebugEndSucess": "DMD shacl validation step success",
+                                "validationStepLoggingDebugEndFails": "DMD shacl validation step fails. See report.json for details."
+                            },
+                            "validationStepPredecessors": [
+                                "URICheckingDmd"
+                            ],
+                            "validationStepErrorsLevel": "errors",
+                            "validationStepConfiguration": {
+                                "validationStepPreparation": {
+                                    "inferred": true,
+                                    "merged": true
+                                },
+                                "validationStepConfigurationInput": [
+                                    {
+                                        "inputLabel": "shapesDmd",
+                                        "inputType": "automaticUpdatedFile",
+                                        "inputFile": "shapesDmd.rdf"
+                                    },
+                                    {
+                                        "inputLabel": "extendedModelDmd",
+                                        "inputType": "automaticUpdatedFile",
+                                        "inputFile": "extendedModelDmd.rdf"
+                                    },
+                                    {
+                                        "inputLabel": "inferredCDM",
+                                        "inputType": "automaticUpdatedFile",
+                                        "inputFile": "inferredCDM.rdf"
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "validationStepLabel": "shaclTmd",
+                            "validationStepType": "shacl",
+                            "validationStepDescription": "Shacl validation of the tmd",
+                            "validationStepLoggingDebug": {
+                                "validationStepLoggingDebugStart": "TMD shacl validation step starts",
+                                "validationStepLoggingDebugEndSucess": "TMD shacl validation step success",
+                                "validationStepLoggingDebugEndFails": "TMD shacl validation step fails. See report.json for details."
+                            },
+                            "validationStepPredecessors": [
+                                "URICheckingTmd"
+                            ],
+                            "validationStepErrorsLevel": "errors",
+                            "validationStepConfiguration": {
+                                "validationStepPreparation": {
+                                    "inferred": true,
+                                    "merged": true
+                                },
+                                "validationStepConfigurationInput": [
+                                    {
+                                        "inputLabel": "shapesTmd",
+                                        "inputType": "automaticUpdatedFile",
+                                        "inputFile": "shapesTmd.rdf"
+                                    },
+                                    {
+                                        "inputLabel": "extendedModelTmd",
+                                        "inputType": "automaticUpdatedFile",
+                                        "inputFile": "extendedModelTmd.rdf"
+                                    },
+                                    {
+                                        "inputLabel": "inferredTDM",
+                                        "inputType": "automaticUpdatedFile",
+                                        "inputFile": "inferredTDM.rdf"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            ],
+            "required": [
+                "preLockValidation",
+                "postLockValidation"
+            ],
+            "additionalProperties": true,
+            "properties": {
+                "preLockValidation": {
+                    "$id": "#/properties/validationConfig/properties/preLockValidation",
+                    "type": "array",
+                    "title": "The preLockValidation schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        [
+                            {
+                                "validationStepLabel": "unzip",
+                                "validationStepType": "unzip",
+                                "validationStepDescription": "unzip the zip package and validate it",
+                                "validationStepLoggingDebug": {
+                                    "validationStepLoggingDebugStart": "Unzip validation step starts",
+                                    "validationStepLoggingDebugEndSucess": "Unzip validation step success",
+                                    "validationStepLoggingDebugEndFails": "Unzip validation step fails. See report.json for details."
+                                },
+                                "validationStepStructMapGlobalTreatement": true,
+                                "validationStepErrorsLevel": "errors"
+                            },
+                            {
+                                "validationStepType": "xsd",
+                                "validationStepDescription": "validate the xml file against METS1 and METS2",
+                                "validationStepLoggingDebug": {
+                                    "validationStepLoggingDebugStart": "Mets validation step starts",
+                                    "validationStepLoggingDebugEndSucess": "Mets validation step success",
+                                    "validationStepLoggingDebugEndFails": "Mets validation step fails. See report.json for details."
+                                },
+                                "validationStepPredecessors": [
+                                    "unzip"
+                                ],
+                                "validationStepStructMapGlobalTreatement": true,
+                                "validationStepErrorsLevel": "errors",
+                                "validationStepConfiguration": {
+                                    "validationStepConfigurationInput": [
+                                        {
+                                            "inputLabel": "mets",
+                                            "inputType": "manualFile",
+                                            "inputFile": "METS.xsd"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/0",
+                                "type": "object",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "validationStepLabel": "unzip",
+                                        "validationStepType": "unzip",
+                                        "validationStepDescription": "unzip the zip package and validate it",
+                                        "validationStepLoggingDebug": {
+                                            "validationStepLoggingDebugStart": "Unzip validation step starts",
+                                            "validationStepLoggingDebugEndSucess": "Unzip validation step success",
+                                            "validationStepLoggingDebugEndFails": "Unzip validation step fails. See report.json for details."
+                                        },
+                                        "validationStepStructMapGlobalTreatement": true,
+                                        "validationStepErrorsLevel": "errors"
+                                    }
+                                ],
+                                "required": [
+                                    "validationStepLabel",
+                                    "validationStepType",
+                                    "validationStepDescription",
+                                    "validationStepLoggingDebug",
+                                    "validationStepStructMapGlobalTreatement",
+                                    "validationStepErrorsLevel"
+                                ],
+                                "additionalProperties": true,
+                                "properties": {
+                                    "validationStepLabel": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/0/properties/validationStepLabel",
+                                        "type": "string",
+                                        "title": "The validationStepLabel schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "unzip"
+                                        ]
+                                    },
+                                    "validationStepType": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/0/properties/validationStepType",
+                                        "type": "string",
+                                        "title": "The validationStepType schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "unzip"
+                                        ]
+                                    },
+                                    "validationStepDescription": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/0/properties/validationStepDescription",
+                                        "type": "string",
+                                        "title": "The validationStepDescription schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "unzip the zip package and validate it"
+                                        ]
+                                    },
+                                    "validationStepLoggingDebug": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/0/properties/validationStepLoggingDebug",
+                                        "type": "object",
+                                        "title": "The validationStepLoggingDebug schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "validationStepLoggingDebugStart": "Unzip validation step starts",
+                                                "validationStepLoggingDebugEndSucess": "Unzip validation step success",
+                                                "validationStepLoggingDebugEndFails": "Unzip validation step fails. See report.json for details."
+                                            }
+                                        ],
+                                        "required": [
+                                            "validationStepLoggingDebugStart",
+                                            "validationStepLoggingDebugEndSucess",
+                                            "validationStepLoggingDebugEndFails"
+                                        ],
+                                        "additionalProperties": true,
+                                        "properties": {
+                                            "validationStepLoggingDebugStart": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/0/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugStart",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugStart schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Unzip validation step starts"
+                                                ]
+                                            },
+                                            "validationStepLoggingDebugEndSucess": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/0/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugEndSucess",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugEndSucess schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Unzip validation step success"
+                                                ]
+                                            },
+                                            "validationStepLoggingDebugEndFails": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/0/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugEndFails",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugEndFails schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Unzip validation step fails. See report.json for details."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "validationStepStructMapGlobalTreatement": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/0/properties/validationStepStructMapGlobalTreatement",
+                                        "type": "boolean",
+                                        "title": "The validationStepStructMapGlobalTreatement schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": false,
+                                        "examples": [
+                                            true
+                                        ]
+                                    },
+                                    "validationStepErrorsLevel": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/0/properties/validationStepErrorsLevel",
+                                        "type": "string",
+                                        "title": "The validationStepErrorsLevel schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "errors"
+                                        ]
+                                    }
+                                }
+                            },
+                            {
+                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1",
+                                "type": "object",
+                                "title": "The second anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "validationStepType": "xsd",
+                                        "validationStepDescription": "validate the xml file against METS1 and METS2",
+                                        "validationStepLoggingDebug": {
+                                            "validationStepLoggingDebugStart": "Mets validation step starts",
+                                            "validationStepLoggingDebugEndSucess": "Mets validation step success",
+                                            "validationStepLoggingDebugEndFails": "Mets validation step fails. See report.json for details."
+                                        },
+                                        "validationStepPredecessors": [
+                                            "unzip"
+                                        ],
+                                        "validationStepStructMapGlobalTreatement": true,
+                                        "validationStepErrorsLevel": "errors",
+                                        "validationStepConfiguration": {
+                                            "validationStepConfigurationInput": [
+                                                {
+                                                    "inputLabel": "mets",
+                                                    "inputType": "manualFile",
+                                                    "inputFile": "METS.xsd"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "required": [
+                                    "validationStepType",
+                                    "validationStepDescription",
+                                    "validationStepLoggingDebug",
+                                    "validationStepPredecessors", 
+                                    "validationStepStructMapGlobalTreatement",
+                                    "validationStepErrorsLevel",
+                                    "validationStepConfiguration"
+                                ],
+                                "additionalProperties": true,
+                                "properties": {
+                                    "validationStepType": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepType",
+                                        "type": "string",
+                                        "title": "The validationStepType schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "xsd"
+                                        ]
+                                    },
+                                    "validationStepDescription": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepDescription",
+                                        "type": "string",
+                                        "title": "The validationStepDescription schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "validate the xml file against METS1 and METS2"
+                                        ]
+                                    },
+                                    "validationStepLoggingDebug": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepLoggingDebug",
+                                        "type": "object",
+                                        "title": "The validationStepLoggingDebug schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "validationStepLoggingDebugStart": "Mets validation step starts",
+                                                "validationStepLoggingDebugEndSucess": "Mets validation step success",
+                                                "validationStepLoggingDebugEndFails": "Mets validation step fails. See report.json for details."
+                                            }
+                                        ],
+                                        "required": [
+                                            "validationStepLoggingDebugStart",
+                                            "validationStepLoggingDebugEndSucess",
+                                            "validationStepLoggingDebugEndFails"
+                                        ],
+                                        "additionalProperties": true,
+                                        "properties": {
+                                            "validationStepLoggingDebugStart": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugStart",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugStart schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Mets validation step starts"
+                                                ]
+                                            },
+                                            "validationStepLoggingDebugEndSucess": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugEndSucess",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugEndSucess schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Mets validation step success"
+                                                ]
+                                            },
+                                            "validationStepLoggingDebugEndFails": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugEndFails",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugEndFails schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Mets validation step fails. See report.json for details."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "validationStepPredecessors": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepPredecessors",
+                                        "type": "array",
+                                        "title": "The validationStepPredecessors schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": [],
+                                        "examples": [
+                                            [
+                                                "unzip"
+                                            ]
+                                        ],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepPredecessors/items/anyOf/0",
+                                                    "type": "string",
+                                                    "title": "The first anyOf schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "default": "",
+                                                    "examples": [
+                                                        "unzip"
+                                                    ]
+                                                }
+                                            ],
+                                            "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepPredecessors/items"
+                                        }
+                                    },
+                                    "validationStepStructMapGlobalTreatement": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepStructMapGlobalTreatement",
+                                        "type": "boolean",
+                                        "title": "The validationStepStructMapGlobalTreatement schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": true,
+                                        "examples": [
+                                            true
+                                        ]
+                                    },
+                                    "validationStepErrorsLevel": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepErrorsLevel",
+                                        "type": "string",
+                                        "title": "The validationStepErrorsLevel schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "errors",
+                                        "examples": [
+                                            "errors", 
+											"warnings"
+                                        ]
+                                    },
+                                    "validationStepConfiguration": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepConfiguration",
+                                        "type": "object",
+                                        "title": "The validationStepConfiguration schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "validationStepConfigurationInput": [
+                                                    {
+                                                        "inputLabel": "mets",
+                                                        "inputType": "manualFile",
+                                                        "inputFile": "METS.xsd"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "required": [
+                                            
+                                        ],
+                                        "additionalProperties": true,
+                                        "properties": {
+                                            "validationStepConfigurationInput": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepConfigurationInput",
+                                                "type": "array",
+                                                "title": "The validationStepConfigurationInput schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": [],
+                                                "examples": [
+                                                    [
+                                                        {
+                                                            "inputLabel": "mets",
+                                                            "inputType": "manualFile",
+                                                            "inputFile": "METS.xsd"
+                                                        }
+                                                    ]
+                                                ],
+                                                "additionalItems": true,
+                                                "items": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0",
+                                                            "type": "object",
+                                                            "title": "The first anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": {},
+                                                            "examples": [
+                                                                {
+                                                                    "inputLabel": "mets",
+                                                                    "inputType": "manualFile",
+                                                                    "inputFile": "METS.xsd"
+                                                                }
+                                                            ],
+                                                            "required": [
+                                                                "inputLabel",
+                                                                "inputType",
+                                                                "inputFile"
+                                                            ],
+                                                            "additionalProperties": true,
+                                                            "properties": {
+                                                                "inputLabel": {
+                                                                    "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0/properties/inputLabel",
+                                                                    "type": "string",
+                                                                    "title": "The inputLabel schema",
+                                                                    "description": "An explanation about the purpose of this instance.",
+                                                                    "default": "",
+                                                                    "examples": [
+                                                                        "mets"
+                                                                    ]
+                                                                },
+                                                                "inputType": {
+                                                                    "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0/properties/inputType",
+                                                                    "type": "string",
+                                                                    "title": "The inputType schema",
+                                                                    "description": "An explanation about the purpose of this instance.",
+                                                                    "default": "",
+                                                                    "examples": [
+                                                                        "manualFile"
+                                                                    ]
+                                                                },
+                                                                "inputFile": {
+                                                                    "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0/properties/inputFile",
+                                                                    "type": "string",
+                                                                    "title": "The inputFile schema",
+                                                                    "description": "An explanation about the purpose of this instance.",
+                                                                    "default": "",
+                                                                    "examples": [
+                                                                        "METS.xsd"
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    ],
+                                                    "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2",
+                                "type": "object",
+                                "title": "The third anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "validationStepLabel": "psi",
+                                        "validationStepType": "psi",
+                                        "validationStepDescription": "validate the psi",
+                                        "validationStepLoggingDebug": {
+                                            "validationStepLoggingDebugStart": "Psi validation step starts",
+                                            "validationStepLoggingDebugEndSucess": "Psi validation step success",
+                                            "validationStepLoggingDebugEndFails": "Psi validation step fails. See report.json for details."
+                                        },
+                                        "validationStepPredecessors": [
+                                            "xsd"
+                                        ],
+                                        "validationStepStructMapGlobalTreatement": false,
+                                        "validationStepErrorsLevel": "errors",
+                                        "validationStepConfiguration": {
+                                            "validationStepConfigurationInput": [
+                                                {
+                                                    "inputLabel": "psi",
+                                                    "inputType": "manualFile",
+                                                    "inputFile": "psi.xml"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "required": [
+                                    "validationStepLabel",
+                                    "validationStepType",
+                                    "validationStepDescription",
+                                    "validationStepLoggingDebug",
+                                    "validationStepPredecessors",
+                                    "validationStepStructMapGlobalTreatement",
+                                    "validationStepErrorsLevel",
+                                    "validationStepConfiguration"
+                                ],
+                                "additionalProperties": true,
+                                "properties": {
+                                    "validationStepLabel": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepLabel",
+                                        "type": "string",
+                                        "title": "The validationStepLabel schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "psi"
+                                        ]
+                                    },
+                                    "validationStepType": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepType",
+                                        "type": "string",
+                                        "title": "The validationStepType schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "psi"
+                                        ]
+                                    },
+                                    "validationStepDescription": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepDescription",
+                                        "type": "string",
+                                        "title": "The validationStepDescription schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "validate the psi"
+                                        ]
+                                    },
+                                    "validationStepLoggingDebug": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepLoggingDebug",
+                                        "type": "object",
+                                        "title": "The validationStepLoggingDebug schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "validationStepLoggingDebugStart": "Psi validation step starts",
+                                                "validationStepLoggingDebugEndSucess": "Psi validation step success",
+                                                "validationStepLoggingDebugEndFails": "Psi validation step fails. See report.json for details."
+                                            }
+                                        ],
+                                        "required": [
+                                            "validationStepLoggingDebugStart",
+                                            "validationStepLoggingDebugEndSucess",
+                                            "validationStepLoggingDebugEndFails"
+                                        ],
+                                        "additionalProperties": true,
+                                        "properties": {
+                                            "validationStepLoggingDebugStart": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugStart",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugStart schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Psi validation step starts"
+                                                ]
+                                            },
+                                            "validationStepLoggingDebugEndSucess": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugEndSucess",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugEndSucess schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Psi validation step success"
+                                                ]
+                                            },
+                                            "validationStepLoggingDebugEndFails": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugEndFails",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugEndFails schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Psi validation step fails. See report.json for details."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "validationStepPredecessors": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepPredecessors",
+                                        "type": "array",
+                                        "title": "The validationStepPredecessors schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": [],
+                                        "examples": [
+                                            [
+                                                "xsd"
+                                            ]
+                                        ],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepPredecessors/items/anyOf/0",
+                                                    "type": "string",
+                                                    "title": "The first anyOf schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "default": "",
+                                                    "examples": [
+                                                        "xsd"
+                                                    ]
+                                                }
+                                            ],
+                                            "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepPredecessors/items"
+                                        }
+                                    },
+                                    "validationStepStructMapGlobalTreatement": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepStructMapGlobalTreatement",
+                                        "type": "boolean",
+                                        "title": "The validationStepStructMapGlobalTreatement schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": false,
+                                        "examples": [
+                                            false
+                                        ]
+                                    },
+                                    "validationStepErrorsLevel": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepErrorsLevel",
+                                        "type": "string",
+                                        "title": "The validationStepErrorsLevel schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "errors"
+                                        ]
+                                    },
+                                    "validationStepConfiguration": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepConfiguration",
+                                        "type": "object",
+                                        "title": "The validationStepConfiguration schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "validationStepConfigurationInput": [
+                                                    {
+                                                        "inputLabel": "psi",
+                                                        "inputType": "manualFile",
+                                                        "inputFile": "psi.xml"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "required": [
+                                            "validationStepConfigurationInput"
+                                        ],
+                                        "additionalProperties": true,
+                                        "properties": {
+                                            "validationStepConfigurationInput": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepConfiguration/properties/validationStepConfigurationInput",
+                                                "type": "array",
+                                                "title": "The validationStepConfigurationInput schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": [],
+                                                "examples": [
+                                                    [
+                                                        {
+                                                            "inputLabel": "psi",
+                                                            "inputType": "manualFile",
+                                                            "inputFile": "psi.xml"
+                                                        }
+                                                    ]
+                                                ],
+                                                "additionalItems": true,
+                                                "items": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0",
+                                                            "type": "object",
+                                                            "title": "The first anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": {},
+                                                            "examples": [
+                                                                {
+                                                                    "inputLabel": "psi",
+                                                                    "inputType": "manualFile",
+                                                                    "inputFile": "psi.xml"
+                                                                }
+                                                            ],
+                                                            "required": [
+                                                                "inputLabel",
+                                                                "inputType",
+                                                                "inputFile"
+                                                            ],
+                                                            "additionalProperties": true,
+                                                            "properties": {
+                                                                "inputLabel": {
+                                                                    "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0/properties/inputLabel",
+                                                                    "type": "string",
+                                                                    "title": "The inputLabel schema",
+                                                                    "description": "An explanation about the purpose of this instance.",
+                                                                    "default": "",
+                                                                    "examples": [
+                                                                        "psi"
+                                                                    ]
+                                                                },
+                                                                "inputType": {
+                                                                    "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0/properties/inputType",
+                                                                    "type": "string",
+                                                                    "title": "The inputType schema",
+                                                                    "description": "An explanation about the purpose of this instance.",
+                                                                    "default": "",
+                                                                    "examples": [
+                                                                        "manualFile"
+                                                                    ]
+                                                                },
+                                                                "inputFile": {
+                                                                    "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0/properties/inputFile",
+                                                                    "type": "string",
+                                                                    "title": "The inputFile schema",
+                                                                    "description": "An explanation about the purpose of this instance.",
+                                                                    "default": "",
+                                                                    "examples": [
+                                                                        "psi.xml"
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    ],
+                                                    "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/2/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3",
+                                "type": "object",
+                                "title": "The fourth anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "validationStepLabel": "hrefs",
+                                        "validationStepType": "hrefs",
+                                        "validationStepDescription": "validates hrefs of the files",
+                                        "validationStepLoggingDebug": {
+                                            "validationStepLoggingDebugStart": "Hrefs validation step starts",
+                                            "validationStepLoggingDebugEndSucess": "Hrefs validation step success",
+                                            "validationStepLoggingDebugEndFails": "Hrefs validation step fails. See report.json for details."
+                                        },
+                                        "validationStepPredecessors": [
+                                            "hrefs"
+                                        ],
+                                        "validationStepStructMapGlobalTreatement": false,
+                                        "validationStepErrorsLevel": "errors"
+                                    }
+                                ],
+                                "required": [
+                                    "validationStepLabel",
+                                    "validationStepType",
+                                    "validationStepDescription",
+                                    "validationStepLoggingDebug",
+                                    "validationStepStructMapGlobalTreatement",
+                                    "validationStepErrorsLevel"
+                                ],
+                                "additionalProperties": true,
+                                "properties": {
+                                    "validationStepLabel": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3/properties/validationStepLabel",
+                                        "type": "string",
+                                        "title": "The validationStepLabel schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "hrefs"
+                                        ]
+                                    },
+                                    "validationStepType": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3/properties/validationStepType",
+                                        "type": "string",
+                                        "title": "The validationStepType schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "hrefs"
+                                        ]
+                                    },
+                                    "validationStepDescription": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3/properties/validationStepDescription",
+                                        "type": "string",
+                                        "title": "The validationStepDescription schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "validates hrefs of the files"
+                                        ]
+                                    },
+                                    "validationStepLoggingDebug": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3/properties/validationStepLoggingDebug",
+                                        "type": "object",
+                                        "title": "The validationStepLoggingDebug schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "validationStepLoggingDebugStart": "Hrefs validation step starts",
+                                                "validationStepLoggingDebugEndSucess": "Hrefs validation step success",
+                                                "validationStepLoggingDebugEndFails": "Hrefs validation step fails. See report.json for details."
+                                            }
+                                        ],
+                                        "required": [
+                                            "validationStepLoggingDebugStart",
+                                            "validationStepLoggingDebugEndSucess",
+                                            "validationStepLoggingDebugEndFails"
+                                        ],
+                                        "additionalProperties": true,
+                                        "properties": {
+                                            "validationStepLoggingDebugStart": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugStart",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugStart schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Hrefs validation step starts"
+                                                ]
+                                            },
+                                            "validationStepLoggingDebugEndSucess": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugEndSucess",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugEndSucess schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Hrefs validation step success"
+                                                ]
+                                            },
+                                            "validationStepLoggingDebugEndFails": {
+                                                "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugEndFails",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugEndFails schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "Hrefs validation step fails. See report.json for details."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "validationStepPredecessors": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3/properties/validationStepPredecessors",
+                                        "type": "array",
+                                        "title": "The validationStepPredecessors schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": [],
+                                        "examples": [
+                                            [
+                                                "hrefs"
+                                            ]
+                                        ],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3/properties/validationStepPredecessors/items/anyOf/0",
+                                                    "type": "string",
+                                                    "title": "The first anyOf schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "default": "",
+                                                    "examples": [
+                                                        "hrefs"
+                                                    ]
+                                                }
+                                            ],
+                                            "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3/properties/validationStepPredecessors/items"
+                                        }
+                                    },
+                                    "validationStepStructMapGlobalTreatement": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3/properties/validationStepStructMapGlobalTreatement",
+                                        "type": "boolean",
+                                        "title": "The validationStepStructMapGlobalTreatement schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": false,
+                                        "examples": [
+                                            false
+                                        ]
+                                    },
+                                    "validationStepErrorsLevel": {
+                                        "$id": "#/properties/validationConfig/properties/preLockValidation/items/anyOf/3/properties/validationStepErrorsLevel",
+                                        "type": "string",
+                                        "title": "The validationStepErrorsLevel schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "errors"
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "$id": "#/properties/validationConfig/properties/preLockValidation/items"
+                    }
+                },
+                "postLockValidation": {
+                    "$id": "#/properties/validationConfig/properties/postLockValidation",
+                    "type": "array",
+                    "title": "The postLockValidation schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "examples": [
+                        [
+                            {
+                                "validationStepLabel": "URICheckingDmd",
+                                "validationStepType": "URIChecking",
+                                "validationStepDescription": "Uri checking of the dmd",
+                                "validationStepLoggingDebug": {
+                                    "validationStepLoggingDebugStart": "DMD Uri checking validation step starts",
+                                    "validationStepLoggingDebugEndSucess": "DMD Uri checking validation step success",
+                                    "validationStepLoggingDebugEndFails": "DMD Uri checking validation step fails. See report.json for details."
+                                },
+                                "validationStepErrorsLevel": "errors",
+                                "validationStepConfiguration": {
+                                    "validationStepPreparation": {
+                                        "inferred": false,
+                                        "merged": false
+                                    },
+                                    "validationStepConfigurationInput": [
+                                        {
+                                            "inputLabel": "regex",
+                                            "inputType": "regexDmd",
+                                            "inputRegex": "htt://&[cellar|jo|celex]"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "validationStepLabel": "URICheckingTmd",
+                                "validationStepType": "URIChecking",
+                                "validationStepDescription": "Uri checking of the tmd",
+                                "validationStepLoggingDebug": {
+                                    "validationStepLoggingDebugStart": "TMD Uri checking validation step starts",
+                                    "validationStepLoggingDebugEndSucess": "TMD Uri checking validation step success",
+                                    "validationStepLoggingDebugEndFails": "TMD Uri checking validation step fails. See report.json for details."
+                                },
+                                "validationStepErrorsLevel": "errors",
+                                "validationStepConfiguration": {
+                                    "validationStepPreparation": {
+                                        "inferred": false,
+                                        "merged": false
+                                    },
+                                    "validationStepConfigurationInput": [
+                                        {
+                                            "inputLabel": "regexTmd",
+                                            "inputType": "regex",
+                                            "inputRegex": "htt://&[cellar|jo|celex]"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    ],
+                    "additionalItems": true,
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0",
+                                "type": "object",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "validationStepLabel": "URICheckingDmd",
+                                        "validationStepType": "URIChecking",
+                                        "validationStepDescription": "Uri checking of the dmd",
+                                        "validationStepLoggingDebug": {
+                                            "validationStepLoggingDebugStart": "DMD Uri checking validation step starts",
+                                            "validationStepLoggingDebugEndSucess": "DMD Uri checking validation step success",
+                                            "validationStepLoggingDebugEndFails": "DMD Uri checking validation step fails. See report.json for details."
+                                        },
+                                        "validationStepErrorsLevel": "errors",
+                                        "validationStepConfiguration": {
+                                            "validationStepPreparation": {
+                                                "inferred": false,
+                                                "merged": false
+                                            },
+                                            "validationStepConfigurationInput": [
+                                                {
+                                                    "inputLabel": "regex",
+                                                    "inputType": "regexDmd",
+                                                    "inputRegex": "htt://&[cellar|jo|celex]"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "required": [
+                                    "validationStepLabel",
+                                    "validationStepType",
+                                    "validationStepDescription",
+                                    "validationStepLoggingDebug",
+                                    "validationStepErrorsLevel",
+                                    "validationStepConfiguration"
+                                ],
+                                "additionalProperties": true,
+                                "properties": {
+                                    "validationStepLabel": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepLabel",
+                                        "type": "string",
+                                        "title": "The validationStepLabel schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "URICheckingDmd"
+                                        ]
+                                    },
+                                    "validationStepType": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepType",
+                                        "type": "string",
+                                        "title": "The validationStepType schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "URIChecking"
+                                        ]
+                                    },
+                                    "validationStepDescription": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepDescription",
+                                        "type": "string",
+                                        "title": "The validationStepDescription schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "Uri checking of the dmd"
+                                        ]
+                                    },
+                                    "validationStepLoggingDebug": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepLoggingDebug",
+                                        "type": "object",
+                                        "title": "The validationStepLoggingDebug schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "validationStepLoggingDebugStart": "DMD Uri checking validation step starts",
+                                                "validationStepLoggingDebugEndSucess": "DMD Uri checking validation step success",
+                                                "validationStepLoggingDebugEndFails": "DMD Uri checking validation step fails. See report.json for details."
+                                            }
+                                        ],
+                                        "required": [
+                                            "validationStepLoggingDebugStart",
+                                            "validationStepLoggingDebugEndSucess",
+                                            "validationStepLoggingDebugEndFails"
+                                        ],
+                                        "additionalProperties": true,
+                                        "properties": {
+                                            "validationStepLoggingDebugStart": {
+                                                "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugStart",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugStart schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "DMD Uri checking validation step starts"
+                                                ]
+                                            },
+                                            "validationStepLoggingDebugEndSucess": {
+                                                "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugEndSucess",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugEndSucess schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "DMD Uri checking validation step success"
+                                                ]
+                                            },
+                                            "validationStepLoggingDebugEndFails": {
+                                                "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugEndFails",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugEndFails schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "DMD Uri checking validation step fails. See report.json for details."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "validationStepErrorsLevel": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepErrorsLevel",
+                                        "type": "string",
+                                        "title": "The validationStepErrorsLevel schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "errors"
+                                        ]
+                                    },
+                                    "validationStepConfiguration": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepConfiguration",
+                                        "type": "object",
+                                        "title": "The validationStepConfiguration schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "validationStepPreparation": {
+                                                    "inferred": false,
+                                                    "merged": false
+                                                },
+                                                "validationStepConfigurationInput": [
+                                                    {
+                                                        "inputLabel": "regex",
+                                                        "inputType": "regexDmd",
+                                                        "inputRegex": "htt://&[cellar|jo|celex]"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "required": [
+                                            "validationStepPreparation"
+                                        ],
+                                        "additionalProperties": true,
+                                        "properties": {
+                                            "validationStepPreparation": {
+                                                "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepConfiguration/properties/validationStepPreparation",
+                                                "type": "object",
+                                                "title": "The validationStepPreparation schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": {},
+                                                "examples": [
+                                                    {
+                                                        "inferred": false,
+                                                        "merged": false
+                                                    }
+                                                ],
+                                                "required": [
+                                                    "inferred",
+                                                    "merged"
+                                                ],
+                                                "additionalProperties": true,
+                                                "properties": {
+                                                    "inferred": {
+                                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepConfiguration/properties/validationStepPreparation/properties/inferred",
+                                                        "type": "boolean",
+                                                        "title": "The inferred schema",
+                                                        "description": "An explanation about the purpose of this instance.",
+                                                        "default": false,
+                                                        "examples": [
+                                                            false
+                                                        ]
+                                                    },
+                                                    "merged": {
+                                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepConfiguration/properties/validationStepPreparation/properties/merged",
+                                                        "type": "boolean",
+                                                        "title": "The merged schema",
+                                                        "description": "An explanation about the purpose of this instance.",
+                                                        "default": false,
+                                                        "examples": [
+                                                            false
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            "validationStepConfigurationInput": {
+                                                "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepConfiguration/properties/validationStepConfigurationInput",
+                                                "type": "array",
+                                                "title": "The validationStepConfigurationInput schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": [],
+                                                "examples": [
+                                                    [
+                                                        {
+                                                            "inputLabel": "regex",
+                                                            "inputType": "regexDmd",
+                                                            "inputRegex": "htt://&[cellar|jo|celex]"
+                                                        }
+                                                    ]
+                                                ],
+                                                "additionalItems": true,
+                                                "items": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0",
+                                                            "type": "object",
+                                                            "title": "The first anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": {},
+                                                            "examples": [
+                                                                {
+                                                                    "inputLabel": "regex",
+                                                                    "inputType": "regexDmd",
+                                                                    "inputRegex": "htt://&[cellar|jo|celex]"
+                                                                }
+                                                            ],
+                                                            "required": [
+                                                                "inputLabel",
+                                                                "inputType",
+                                                                "inputRegex"
+                                                            ],
+                                                            "additionalProperties": true,
+                                                            "properties": {
+                                                                "inputLabel": {
+                                                                    "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0/properties/inputLabel",
+                                                                    "type": "string",
+                                                                    "title": "The inputLabel schema",
+                                                                    "description": "An explanation about the purpose of this instance.",
+                                                                    "default": "",
+                                                                    "examples": [
+                                                                        "regex"
+                                                                    ]
+                                                                },
+                                                                "inputType": {
+                                                                    "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0/properties/inputType",
+                                                                    "type": "string",
+                                                                    "title": "The inputType schema",
+                                                                    "description": "An explanation about the purpose of this instance.",
+                                                                    "default": "",
+                                                                    "examples": [
+                                                                        "regexDmd"
+                                                                    ]
+                                                                },
+                                                                "inputRegex": {
+                                                                    "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0/properties/inputRegex",
+                                                                    "type": "string",
+                                                                    "title": "The inputRegex schema",
+                                                                    "description": "An explanation about the purpose of this instance.",
+                                                                    "default": "",
+                                                                    "examples": [
+                                                                        "htt://&[cellar|jo|celex]"
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    ],
+                                                    "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/0/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1",
+                                "type": "object",
+                                "title": "The second anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "examples": [
+                                    {
+                                        "validationStepLabel": "shaclDmd",
+                                        "validationStepType": "shacl",
+                                        "validationStepDescription": "Shacl validation of the dmd",
+                                        "validationStepLoggingDebug": {
+                                            "validationStepLoggingDebugStart": "DMD shacl validation step starts",
+                                            "validationStepLoggingDebugEndSucess": "DMD shacl validation step success",
+                                            "validationStepLoggingDebugEndFails": "DMD shacl validation step fails. See report.json for details."
+                                        },
+                                        "validationStepPredecessors": [
+                                            "URICheckingDmd"
+                                        ],
+                                        "validationStepErrorsLevel": "errors",
+                                        "validationStepConfiguration": {
+                                            "validationStepPreparation": {
+                                                "inferred": true,
+                                                "merged": true
+                                            },
+                                            "validationStepConfigurationInput": [
+                                                {
+                                                    "inputLabel": "shapesDmd",
+                                                    "inputType": "automaticUpdatedFile",
+                                                    "inputFile": "shapesDmd.rdf"
+                                                },
+                                                {
+                                                    "inputLabel": "extendedModelDmd",
+                                                    "inputType": "automaticUpdatedFile",
+                                                    "inputFile": "extendedModelDmd.rdf"
+                                                },
+                                                {
+                                                    "inputLabel": "inferredCDM",
+                                                    "inputType": "automaticUpdatedFile",
+                                                    "inputFile": "inferredCDM.rdf"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "required": [
+                                    "validationStepLabel",
+                                    "validationStepType",
+                                    "validationStepDescription",
+                                    "validationStepLoggingDebug",
+                                    "validationStepPredecessors",
+                                    "validationStepErrorsLevel",
+                                    "validationStepConfiguration"
+                                ],
+                                "additionalProperties": true,
+                                "properties": {
+                                    "validationStepLabel": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepLabel",
+                                        "type": "string",
+                                        "title": "The validationStepLabel schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "shaclDmd"
+                                        ]
+                                    },
+                                    "validationStepType": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepType",
+                                        "type": "string",
+                                        "title": "The validationStepType schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "shacl"
+                                        ]
+                                    },
+                                    "validationStepDescription": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepDescription",
+                                        "type": "string",
+                                        "title": "The validationStepDescription schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "Shacl validation of the dmd"
+                                        ]
+                                    },
+                                    "validationStepLoggingDebug": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepLoggingDebug",
+                                        "type": "object",
+                                        "title": "The validationStepLoggingDebug schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "validationStepLoggingDebugStart": "DMD shacl validation step starts",
+                                                "validationStepLoggingDebugEndSucess": "DMD shacl validation step success",
+                                                "validationStepLoggingDebugEndFails": "DMD shacl validation step fails. See report.json for details."
+                                            }
+                                        ],
+                                        "required": [
+                                            "validationStepLoggingDebugStart",
+                                            "validationStepLoggingDebugEndSucess",
+                                            "validationStepLoggingDebugEndFails"
+                                        ],
+                                        "additionalProperties": true,
+                                        "properties": {
+                                            "validationStepLoggingDebugStart": {
+                                                "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugStart",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugStart schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "DMD shacl validation step starts"
+                                                ]
+                                            },
+                                            "validationStepLoggingDebugEndSucess": {
+                                                "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugEndSucess",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugEndSucess schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "DMD shacl validation step success"
+                                                ]
+                                            },
+                                            "validationStepLoggingDebugEndFails": {
+                                                "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepLoggingDebug/properties/validationStepLoggingDebugEndFails",
+                                                "type": "string",
+                                                "title": "The validationStepLoggingDebugEndFails schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": "",
+                                                "examples": [
+                                                    "DMD shacl validation step fails. See report.json for details."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "validationStepPredecessors": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepPredecessors",
+                                        "type": "array",
+                                        "title": "The validationStepPredecessors schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": [],
+                                        "examples": [
+                                            [
+                                                "URICheckingDmd"
+                                            ]
+                                        ],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepPredecessors/items/anyOf/0",
+                                                    "type": "string",
+                                                    "title": "The first anyOf schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "default": "",
+                                                    "examples": [
+                                                        "URICheckingDmd"
+                                                    ]
+                                                }
+                                            ],
+                                            "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepPredecessors/items"
+                                        }
+                                    },
+                                    "validationStepErrorsLevel": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepErrorsLevel",
+                                        "type": "string",
+                                        "title": "The validationStepErrorsLevel schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": "",
+                                        "examples": [
+                                            "errors"
+                                        ]
+                                    },
+                                    "validationStepConfiguration": {
+                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepConfiguration",
+                                        "type": "object",
+                                        "title": "The validationStepConfiguration schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": {},
+                                        "examples": [
+                                            {
+                                                "validationStepPreparation": {
+                                                    "inferred": true,
+                                                    "merged": true
+                                                },
+                                                "validationStepConfigurationInput": [
+                                                    {
+                                                        "inputLabel": "shapesDmd",
+                                                        "inputType": "automaticUpdatedFile",
+                                                        "inputFile": "shapesDmd.rdf"
+                                                    },
+                                                    {
+                                                        "inputLabel": "extendedModelDmd",
+                                                        "inputType": "automaticUpdatedFile",
+                                                        "inputFile": "extendedModelDmd.rdf"
+                                                    },
+                                                    {
+                                                        "inputLabel": "inferredCDM",
+                                                        "inputType": "automaticUpdatedFile",
+                                                        "inputFile": "inferredCDM.rdf"
+                                                    }
+                                                ]
+                                            }
+                                        ],
+                                        "required": [
+                                            "validationStepPreparation",
+                                            "validationStepConfigurationInput"
+                                        ],
+                                        "additionalProperties": true,
+                                        "properties": {
+                                            "validationStepPreparation": {
+                                                "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepPreparation",
+                                                "type": "object",
+                                                "title": "The validationStepPreparation schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": {},
+                                                "examples": [
+                                                    {
+                                                        "inferred": true,
+                                                        "merged": true
+                                                    }
+                                                ],
+                                                "required": [
+                                                    "inferred",
+                                                    "merged"
+                                                ],
+                                                "additionalProperties": true,
+                                                "properties": {
+                                                    "inferred": {
+                                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepPreparation/properties/inferred",
+                                                        "type": "boolean",
+                                                        "title": "The inferred schema",
+                                                        "description": "An explanation about the purpose of this instance.",
+                                                        "default": false,
+                                                        "examples": [
+                                                            true
+                                                        ]
+                                                    },
+                                                    "merged": {
+                                                        "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepPreparation/properties/merged",
+                                                        "type": "boolean",
+                                                        "title": "The merged schema",
+                                                        "description": "An explanation about the purpose of this instance.",
+                                                        "default": false,
+                                                        "examples": [
+                                                            true
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            "validationStepConfigurationInput": {
+                                                "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepConfigurationInput",
+                                                "type": "array",
+                                                "title": "The validationStepConfigurationInput schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": [],
+                                                "examples": [
+                                                    [
+                                                        {
+                                                            "inputLabel": "shapesDmd",
+                                                            "inputType": "automaticUpdatedFile",
+                                                            "inputFile": "shapesDmd.rdf"
+                                                        },
+                                                        {
+                                                            "inputLabel": "extendedModelDmd",
+                                                            "inputType": "automaticUpdatedFile",
+                                                            "inputFile": "extendedModelDmd.rdf"
+                                                        }
+                                                    ]
+                                                ],
+                                                "additionalItems": true,
+                                                "items": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0",
+                                                            "type": "object",
+                                                            "title": "The first anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": {},
+                                                            "examples": [
+                                                                {
+                                                                    "inputLabel": "shapesDmd",
+                                                                    "inputType": "automaticUpdatedFile",
+                                                                    "inputFile": "shapesDmd.rdf"
+                                                                }
+                                                            ],
+                                                            "required": [
+                                                                "inputLabel",
+                                                                "inputType",
+                                                                "inputFile"
+                                                            ],
+                                                            "additionalProperties": true,
+                                                            "properties": {
+                                                                "inputLabel": {
+                                                                    "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0/properties/inputLabel",
+                                                                    "type": "string",
+                                                                    "title": "The inputLabel schema",
+                                                                    "description": "An explanation about the purpose of this instance.",
+                                                                    "default": "",
+                                                                    "examples": [
+                                                                        "shapesDmd"
+                                                                    ]
+                                                                },
+                                                                "inputType": {
+                                                                    "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0/properties/inputType",
+                                                                    "type": "string",
+                                                                    "title": "The inputType schema",
+                                                                    "description": "An explanation about the purpose of this instance.",
+                                                                    "default": "",
+                                                                    "examples": [
+                                                                        "automaticUpdatedFile"
+                                                                    ]
+                                                                },
+                                                                "inputFile": {
+                                                                    "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items/anyOf/0/properties/inputFile",
+                                                                    "type": "string",
+                                                                    "title": "The inputFile schema",
+                                                                    "description": "An explanation about the purpose of this instance.",
+                                                                    "default": "",
+                                                                    "examples": [
+                                                                        "shapesDmd.rdf"
+                                                                    ]
+                                                                }
+                                                            }
+                                                        }
+                                                    ],
+                                                    "$id": "#/properties/validationConfig/properties/postLockValidation/items/anyOf/1/properties/validationStepConfiguration/properties/validationStepConfigurationInput/items"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "$id": "#/properties/validationConfig/properties/postLockValidation/items"
+                    }
+                }
+            }
+        }
+    }
+}
