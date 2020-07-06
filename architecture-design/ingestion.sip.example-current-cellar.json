@@ -2,118 +2,229 @@
 	"validationConfig":{
 		"preLockValidation":[
 			{
+				"validationStepLabel":"unzip",
 				"validationStepType":"unzip",
 				"validationStepDescription":"unzip the zip package and validate it",
-				"validationStepStructMapTreatement":"global",
+				"validationStepLoggingDebug": {
+					"validationStepLoggingDebugStart": "Unzip validation step starts",
+					"validationStepLoggingDebugEndSucess": "Unzip validation step success",
+					"validationStepLoggingDebugEndFails": "Unzip validation step fails. See report.json for details."
+				},
+				"validationStepStructMapGlobalTreatement":true,
 				"validationStepErrorsLevel":"errors"
 			},
 			{
 				"validationStepType":"xsd",
 				"validationStepDescription":"validate the xml file against METS1 and METS2",
+				"validationStepLoggingDebug": {
+					"validationStepLoggingDebugStart": "Mets validation step starts",
+					"validationStepLoggingDebugEndSucess": "Mets validation step success",
+					"validationStepLoggingDebugEndFails": "Mets validation step fails. See report.json for details."
+				},
 				"validationStepPredecessors":["unzip"],
-				"validationStepStructMapTreatement":"global",
+				"validationStepStructMapGlobalTreatement":true,
 				"validationStepErrorsLevel":"errors",
-				"validationStepConfigFiles": [
-					"mets.xsd"
-				]
+				"validationStepConfiguration": {
+					"validationStepConfigurationInput":[
+						{
+							"inputLabel" : "mets",
+							"inputType" : "manualFile",
+							"inputFile" : "METS.xsd"
+						}
+					]
+				}
 			},
 			{
+				"validationStepLabel":"psi",
 				"validationStepType":"psi",
 				"validationStepDescription":"validate the psi",
+				"validationStepLoggingDebug": {
+					"validationStepLoggingDebugStart": "Psi validation step starts",
+					"validationStepLoggingDebugEndSucess": "Psi validation step success",
+					"validationStepLoggingDebugEndFails": "Psi validation step fails. See report.json for details."
+				},
 				"validationStepPredecessors":["xsd"],
 				"validationStepStructMapGlobalTreatement":false,
 				"validationStepErrorsLevel":"errors",
-				"validationStepConfiguration": [
-					"name" : "psi",
-					"file" : "psi.xml",
-					"origin" : "configServer"
-				]
+				"validationStepConfiguration": {
+					"validationStepConfigurationInput":[
+						{
+							"inputLabel" : "psi",
+							"inputType" : "manualFile",
+							"inputFile" : "psi.xml"
+						}
+					]
+				}
 			},
 			{
+				"validationStepLabel":"hrefs",
 				"validationStepType":"hrefs",
 				"validationStepDescription":"validates hrefs of the files",
-				"validationStepPredecessors":["xsd"],
-				"validationStepStructMapTreatement":"individual",
-				"validationStepErrorsLevel":"errors"
-			},
-			{
-				"validationStepType":"checksum",
-				"validationStepDescription":"validate the chesksums",
+				"validationStepLoggingDebug": {
+					"validationStepLoggingDebugStart": "Hrefs validation step starts",
+					"validationStepLoggingDebugEndSucess": "Hrefs validation step success",
+					"validationStepLoggingDebugEndFails": "Hrefs validation step fails. See report.json for details."
+				},
 				"validationStepPredecessors":["hrefs"],
-				"validationStepStructMapTreatement":"individual",
+				"validationStepStructMapGlobalTreatement":false,
 				"validationStepErrorsLevel":"errors"
 			},
 			{
+				"validationStepLabel":"checksums",
+				"validationStepType":"checksums",
+				"validationStepDescription":"validate the chesksums",
+				"validationStepLoggingDebug": {
+					"validationStepLoggingDebugStart": "Hrefs validation step starts",
+					"validationStepLoggingDebugEndSucess": "Hrefs validation step success",
+					"validationStepLoggingDebugEndFails": "Hrefs validation step fails. See report.json for details."
+				},
+				"validationStepPredecessors":["hrefs"],
+				"validationStepStructMapGlobalTreatement":false,
+				"validationStepErrorsLevel":"errors"
+			},
+			{
+				"validationStepLabel":"mimeType",
 				"validationStepType":"mimeType",
-				"validationStepDescription":"validates hrefs of the files",
+				"validationStepDescription":"validates mimeType of the files",
+				"validationStepLoggingDebug": {
+					"validationStepLoggingDebugStart": "MimeType validation step starts",
+					"validationStepLoggingDebugEndSucess": "MimeType validation step success",
+					"validationStepLoggingDebugEndFails": "MimeType validation step fails. See report.json for details."
+				},
 				"validationStepPredecessors":["xsd"],
-				"validationStepStructMapTreatement":"individual",
+				"validationStepStructMapGlobalTreatement":false,
 				"validationStepErrorsLevel":"errors",
-				"validationStepConfigFiles": [
-					"&resource/authority/file-type"
-				]
+				"validationStepConfiguration": {
+					"validationStepConfigurationInput":[
+						{
+							"inputLabel" : "file-type",
+							"inputType" : "notice",
+							"inputUrl" : "&resource/authority/file-type"
+						}
+					]
+				}
 			}
 		],
 		"postLockValidation":[
 			{
+				"validationStepLabel":"URICheckingDmd",
 				"validationStepType":"URIChecking",
-				"validationStepDescription":"blabla",
-				"validationStepPreparationInferred":false,
-				"validationStepPreparationMerged":false,
+				"validationStepDescription":"Uri checking of the dmd",
+				"validationStepLoggingDebug": {
+					"validationStepLoggingDebugStart": "DMD Uri checking validation step starts",
+					"validationStepLoggingDebugEndSucess": "DMD Uri checking validation step success",
+					"validationStepLoggingDebugEndFails": "DMD Uri checking validation step fails. See report.json for details."
+				},
+				"validationStepErrorsLevel":"errors",
 				"validationStepConfiguration" : {
-					"dmd" : {
-						"files" :[
-							"regex.txt"
-						]
+					"validationStepPreparation": {
+						"inferred" : false,
+						"merged" : false,
 					},
-					"tmd" : {
-					
-					}
-							
+					"validationStepConfigurationInput":[
+						{
+							"inputLabel" : "regex",
+							"inputType" : "regexDmd",
+							"inputRegex" : "htt:\/\/&[cellar|jo|celex]"
+						}
+					]
 				}
-						
-						
-				
-				"validationStepGroup":"dmd",
-				"validationStepDescription":"validates the dmd",
-				"validationStepOntolgy":"CDM",
-				"validationStepTechnologies":[
-					{
-						"validationStepType":"URIChecking",
-						"validationStepPreparationTechnologyInferred":false,
-						"validationStepPreparationTechnologyMerged":false,
-						"validationStepTechnologyConfiguration" : {
-							
-						}
-					},
-					{
-						"validationStepType":"shacl",
-						"validationStepPredecessors":["URIChecking"],
-						"validationStepTechnologyPreparationInferred":true,
-						"validationStepTechnologyPreparationMerged":true,
-						"validationStepTechnologyErrorsLevel":"errors",
-						"validationStepTechnologyConfiguration": {
-							"CDM" [
-								"shapesDmd.rdf",
-								"extendedModelDmd.rdf",
-								"inferredCDM.rdf"
-							]
-						}
-					}
-				]
 			},
 			{
-				"validationStepType":"tmd",
-				"validationStepDescription":"validates the tmd",
-				"validationStepOntolgy":"TDM",
-				"validationStepTechnologies":[
-					{
-						"validationStepTechnologyType":"URIChecking",
-						"validationStepPreparationTechnologyInferred":false,
-						"validationStepPreparationTechnologyMerged":false
-					}
-				]
+				"validationStepLabel":"URICheckingTmd",
+				"validationStepType":"URIChecking",
+				"validationStepDescription":"Uri checking of the tmd",
+				"validationStepLoggingDebug": {
+					"validationStepLoggingDebugStart": "TMD Uri checking validation step starts",
+					"validationStepLoggingDebugEndSucess": "TMD Uri checking validation step success",
+					"validationStepLoggingDebugEndFails": "TMD Uri checking validation step fails. See report.json for details."
+				},
+				"validationStepErrorsLevel":"errors",
+				"validationStepConfiguration" : {
+					"validationStepPreparation": {
+						"inferred" : false,
+						"merged" : false
+					},
+					"validationStepConfigurationInput":[
+						{
+							"inputLabel" : "regexTmd",
+							"inputType" : "regex",
+							"inputRegex" : "htt:\/\/&[cellar|jo|celex]"
+						}
+					]
+				}
+			},
+			{
+				"validationStepLabel":"shaclDmd",
+				"validationStepType":"shacl",
+				"validationStepDescription":"Shacl validation of the dmd",
+				"validationStepLoggingDebug": {
+					"validationStepLoggingDebugStart": "DMD shacl validation step starts",
+					"validationStepLoggingDebugEndSucess": "DMD shacl validation step success",
+					"validationStepLoggingDebugEndFails": "DMD shacl validation step fails. See report.json for details."
+				},
+				"validationStepPredecessors":["URICheckingDmd"],
+				"validationStepErrorsLevel":"errors",
+				"validationStepConfiguration" : {
+					"validationStepPreparation": {
+						"inferred" : true,
+						"merged" : true
+					},
+					"validationStepConfigurationInput":[
+						{
+							"inputLabel" : "shapesDmd",
+							"inputType" : "automaticUpdatedFile",
+							"inputFile" : "shapesDmd.rdf"
+						},
+						{
+							"inputLabel" : "extendedModelDmd",
+							"inputType" : "automaticUpdatedFile",
+							"inputFile" : "extendedModelDmd.rdf"
+						},
+						{
+							"inputLabel" : "inferredCDM",
+							"inputType" : "automaticUpdatedFile",
+							"inputFile" : "inferredCDM.rdf"
+						}
+					]
+				}
+			},
+			{
+				"validationStepLabel":"shaclTmd",
+				"validationStepType":"shacl",
+				"validationStepDescription":"Shacl validation of the tmd",
+				"validationStepLoggingDebug": {
+					"validationStepLoggingDebugStart": "TMD shacl validation step starts",
+					"validationStepLoggingDebugEndSucess": "TMD shacl validation step success",
+					"validationStepLoggingDebugEndFails": "TMD shacl validation step fails. See report.json for details."
+				},
+				"validationStepPredecessors":["URICheckingTmd"],
+				"validationStepErrorsLevel":"errors",
+				"validationStepConfiguration" : {
+					"validationStepPreparation": {
+						"inferred" : true,
+						"merged" : true
+					},
+					"validationStepConfigurationInput":[
+						{
+							"inputLabel" : "shapesTmd",
+							"inputType" : "automaticUpdatedFile",
+							"inputFile" : "shapesTmd.rdf"
+						},
+						{
+							"inputLabel" : "extendedModelTmd",
+							"inputType" : "automaticUpdatedFile",
+							"inputFile" : "extendedModelTmd.rdf"
+						},
+						{
+							"inputLabel" : "inferredTDM",
+							"inputType" : "automaticUpdatedFile",
+							"inputFile" : "inferredTDM.rdf"
+						}
+					]
+				}
 			}
+		
 		]
 	}
 }
