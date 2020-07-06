@@ -1,0 +1,119 @@
+{
+	"validationConfig":{
+		"preLockValidation":[
+			{
+				"validationStepType":"unzip",
+				"validationStepDescription":"unzip the zip package and validate it",
+				"validationStepStructMapTreatement":"global",
+				"validationStepErrorsLevel":"errors"
+			},
+			{
+				"validationStepType":"xsd",
+				"validationStepDescription":"validate the xml file against METS1 and METS2",
+				"validationStepPredecessors":["unzip"],
+				"validationStepStructMapTreatement":"global",
+				"validationStepErrorsLevel":"errors",
+				"validationStepConfigFiles": [
+					"mets.xsd"
+				]
+			},
+			{
+				"validationStepType":"psi",
+				"validationStepDescription":"validate the psi",
+				"validationStepPredecessors":["xsd"],
+				"validationStepStructMapGlobalTreatement":false,
+				"validationStepErrorsLevel":"errors",
+				"validationStepConfiguration": [
+					"name" : "psi",
+					"file" : "psi.xml",
+					"origin" : "configServer"
+				]
+			},
+			{
+				"validationStepType":"hrefs",
+				"validationStepDescription":"validates hrefs of the files",
+				"validationStepPredecessors":["xsd"],
+				"validationStepStructMapTreatement":"individual",
+				"validationStepErrorsLevel":"errors"
+			},
+			{
+				"validationStepType":"checksum",
+				"validationStepDescription":"validate the chesksums",
+				"validationStepPredecessors":["hrefs"],
+				"validationStepStructMapTreatement":"individual",
+				"validationStepErrorsLevel":"errors"
+			},
+			{
+				"validationStepType":"mimeType",
+				"validationStepDescription":"validates hrefs of the files",
+				"validationStepPredecessors":["xsd"],
+				"validationStepStructMapTreatement":"individual",
+				"validationStepErrorsLevel":"errors",
+				"validationStepConfigFiles": [
+					"&resource/authority/file-type"
+				]
+			}
+		],
+		"postLockValidation":[
+			{
+				"validationStepType":"URIChecking",
+				"validationStepDescription":"blabla",
+				"validationStepPreparationInferred":false,
+				"validationStepPreparationMerged":false,
+				"validationStepConfiguration" : {
+					"dmd" : {
+						"files" :[
+							"regex.txt"
+						]
+					},
+					"tmd" : {
+					
+					}
+							
+				}
+						
+						
+				
+				"validationStepGroup":"dmd",
+				"validationStepDescription":"validates the dmd",
+				"validationStepOntolgy":"CDM",
+				"validationStepTechnologies":[
+					{
+						"validationStepType":"URIChecking",
+						"validationStepPreparationTechnologyInferred":false,
+						"validationStepPreparationTechnologyMerged":false,
+						"validationStepTechnologyConfiguration" : {
+							
+						}
+					},
+					{
+						"validationStepType":"shacl",
+						"validationStepPredecessors":["URIChecking"],
+						"validationStepTechnologyPreparationInferred":true,
+						"validationStepTechnologyPreparationMerged":true,
+						"validationStepTechnologyErrorsLevel":"errors",
+						"validationStepTechnologyConfiguration": {
+							"CDM" [
+								"shapesDmd.rdf",
+								"extendedModelDmd.rdf",
+								"inferredCDM.rdf"
+							]
+						}
+					}
+				]
+			},
+			{
+				"validationStepType":"tmd",
+				"validationStepDescription":"validates the tmd",
+				"validationStepOntolgy":"TDM",
+				"validationStepTechnologies":[
+					{
+						"validationStepTechnologyType":"URIChecking",
+						"validationStepPreparationTechnologyInferred":false,
+						"validationStepPreparationTechnologyMerged":false
+					}
+				]
+			}
+		]
+	}
+}
