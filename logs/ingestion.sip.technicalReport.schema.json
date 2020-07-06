@@ -1,0 +1,261 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "examples": [
+        {
+            "zipName": "examplezip.zip",
+            "zipSize": "239Ko",
+            "structMaps": [
+                {
+                    "structMapName": "s1",
+                    "wemiElements": [
+                        {
+                            "psi": "jo/2017",
+                            "type": "work",
+                            "mdFile": "md_work.rdf"
+                        },
+                        {
+                            "psi": "jo/2017.03",
+                            "type": "expression",
+                            "mdFile": "md_exp1.rdf"
+                        }
+                    ]
+                },
+                {
+                    "structMapName": "s2",
+                    "wemiElements": [
+                        {
+                            "psi": "jo/2017",
+                            "type": "work",
+                            "mdFile": "md_work.rdf"
+                        },
+                        {
+                            "psi": "jo/2017.0003",
+                            "type": "expression",
+                            "mdFile": "md_exp1.rdf"
+                        },
+                        {
+                            "psi": "jo/2017.0003.01",
+                            "type": "manifestation",
+                            "mdFile": "md_manif1.rdf"
+                        },
+                        {
+                            "psi": "jo/2017.03",
+                            "type": "item",
+                            "streamFile": "file.pdf"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "required": [
+        "zipName",
+        "zipSize",
+        "structMaps"
+    ],
+    "additionalProperties": true,
+    "properties": {
+        "zipName": {
+            "$id": "#/properties/zipName",
+            "type": "string",
+            "title": "The zipName schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "examplezip.zip"
+            ]
+        },
+        "zipSize": {
+            "$id": "#/properties/zipSize",
+            "type": "string",
+            "title": "The zipSize schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": "",
+            "examples": [
+                "239Ko"
+            ]
+        },
+        "structMaps": {
+            "$id": "#/properties/structMaps",
+            "type": "array",
+            "title": "The structMaps schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": [],
+            "examples": [
+                [
+                    {
+                        "structMapName": "s1",
+                        "wemiElements": [
+                            {
+                                "psi": "jo/2017",
+                                "type": "work",
+                                "mdFile": "md_work.rdf"
+                            },
+                            {
+                                "psi": "jo/2017.03",
+                                "type": "expression",
+                                "mdFile": "md_exp1.rdf"
+                            }
+                        ]
+                    },
+                    {
+                        "structMapName": "s2",
+                        "wemiElements": [
+                            {
+                                "psi": "jo/2017",
+                                "type": "work",
+                                "mdFile": "md_work.rdf"
+                            },
+                            {
+                                "psi": "jo/2017.0003",
+                                "type": "expression",
+                                "mdFile": "md_exp1.rdf"
+                            },
+                            {
+                                "psi": "jo/2017.0003.01",
+                                "type": "manifestation",
+                                "mdFile": "md_manif1.rdf"
+                            },
+                            {
+                                "psi": "jo/2017.03",
+                                "type": "item",
+                                "streamFile": "file.pdf"
+                            }
+                        ]
+                    }
+                ]
+            ],
+            "additionalItems": true,
+            "items": {
+                "anyOf": [
+                    {
+                        "$id": "#/properties/structMaps/items/anyOf/0",
+                        "type": "object",
+                        "title": "The first anyOf schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "default": {},
+                        "examples": [
+                            {
+                                "structMapName": "s1",
+                                "wemiElements": [
+                                    {
+                                        "psi": "jo/2017",
+                                        "type": "work",
+                                        "mdFile": "md_work.rdf"
+                                    },
+                                    {
+                                        "psi": "jo/2017.03",
+                                        "type": "expression",
+                                        "mdFile": "md_exp1.rdf"
+                                    }
+                                ]
+                            }
+                        ],
+                        "required": [
+                            "structMapName",
+                            "wemiElements"
+                        ],
+                        "additionalProperties": true,
+                        "properties": {
+                            "structMapName": {
+                                "$id": "#/properties/structMaps/items/anyOf/0/properties/structMapName",
+                                "type": "string",
+                                "title": "The structMapName schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": "",
+                                "examples": [
+                                    "s1"
+                                ]
+                            },
+                            "wemiElements": {
+                                "$id": "#/properties/structMaps/items/anyOf/0/properties/wemiElements",
+                                "type": "array",
+                                "title": "The wemiElements schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": [],
+                                "examples": [
+                                    [
+                                        {
+                                            "psi": "jo/2017",
+                                            "type": "work",
+                                            "mdFile": "md_work.rdf"
+                                        },
+                                        {
+                                            "psi": "jo/2017.03",
+                                            "type": "expression",
+                                            "mdFile": "md_exp1.rdf"
+                                        }
+                                    ]
+                                ],
+                                "additionalItems": true,
+                                "items": {
+                                    "anyOf": [
+                                        {
+                                            "$id": "#/properties/structMaps/items/anyOf/0/properties/wemiElements/items/anyOf/0",
+                                            "type": "object",
+                                            "title": "The first anyOf schema",
+                                            "description": "An explanation about the purpose of this instance.",
+                                            "default": {},
+                                            "examples": [
+                                                {
+                                                    "psi": "jo/2017",
+                                                    "type": "work",
+                                                    "mdFile": "md_work.rdf"
+                                                }
+                                            ],
+                                            "required": [
+                                                "psi",
+                                                "type",
+                                                "mdFile"
+                                            ],
+                                            "additionalProperties": true,
+                                            "properties": {
+                                                "psi": {
+                                                    "$id": "#/properties/structMaps/items/anyOf/0/properties/wemiElements/items/anyOf/0/properties/psi",
+                                                    "type": "string",
+                                                    "title": "The psi schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "default": "",
+                                                    "examples": [
+                                                        "jo/2017"
+                                                    ]
+                                                },
+                                                "type": {
+                                                    "$id": "#/properties/structMaps/items/anyOf/0/properties/wemiElements/items/anyOf/0/properties/type",
+                                                    "type": "string",
+                                                    "title": "The type schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "default": "",
+                                                    "examples": [
+                                                        "work"
+                                                    ]
+                                                },
+                                                "mdFile": {
+                                                    "$id": "#/properties/structMaps/items/anyOf/0/properties/wemiElements/items/anyOf/0/properties/mdFile",
+                                                    "type": "string",
+                                                    "title": "The mdFile schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "default": "",
+                                                    "examples": [
+                                                        "md_work.rdf"
+                                                    ]
+                                                }
+                                            }
+                                        }
+                                    ],
+                                    "$id": "#/properties/structMaps/items/anyOf/0/properties/wemiElements/items"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "$id": "#/properties/structMaps/items"
+            }
+        }
+    }
+}
