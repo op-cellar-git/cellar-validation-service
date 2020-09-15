@@ -1,0 +1,130 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"$id": "http://publications.europa.eu/validation/public.response.schema.json",
+	"title": "Validation Service Public Response Schema",
+	"description": "A public response schema for the validation service",
+	"type": "object",
+	"properties": {
+		"validationPassed": {
+			"type": "boolean"
+		},
+		"structMaps": {
+					"$ref": "#/definitions/structMapsObject"
+		}
+	},
+	"patternProperties": {
+		"Validation$": {
+			"$ref": "#/definitions/validationResultObject"
+		}
+	},
+	"required": [
+		"validationPassed"
+	],
+	"additionalProperties": false,
+	"definitions": {
+		
+		"structMapsObject": {
+			"type": "object",
+			"patternProperties": {
+				"^structMap": {
+					"$ref": "#/definitions/structMapValidationResultObject"
+				}
+			},
+			"additionalProperties": false,
+		},
+	
+	
+		"validationResultObject": {
+			"type": "object",
+			"properties": {
+				"validationPassed": {
+					"type": "boolean"
+				},
+				"validationType": {
+					"enum": [
+						"unzipValidation",
+						"xsdValidation",
+						"psiValidation",
+						"hrefsValidation",
+						"checksumsValidation",
+						"mimeTypeValidation",
+						"dmdValidation",
+						"tmdValidation"
+					]
+				},
+				"containsWarnings": {
+					"type": "boolean"
+				},
+				"errorMessage": {
+					"type": "string"
+				},
+				"validationReport": {
+					"type": "object",
+					"properties": {
+						"report": {
+							"type": "string"
+						},
+						"mimetype": {
+							"enum": [
+								"text/turtle",
+								"text/plain"
+							]
+						}
+					},
+					"required": [
+						"report",
+						"mimetype"
+					],
+					"additionalProperties": false
+				}
+			},
+			"required": [
+				"validationPassed",
+				"validationType",
+				"containsWarnings"
+			],
+			"allOf": [
+				{
+					"if": {
+						"properties": {
+						  "validationPassed": { "const": "false" }
+						}
+					}, "then": { 
+						"required": ["errorMessage", "validationReport"] 
+					}
+				},
+				{
+					"if": {
+						"properties": {
+						  "validationPassed": { "const": "true" },
+						  "containsWarnings": { "const": "true" }
+						}
+					}, "then": { 
+						"required": ["validationReport"] 
+					}
+				}
+			],
+			"additionalProperties": false
+		},
+		"structMapValidationResultObject": {
+			"type": "object",
+			"contains": {
+				"type": "#/definitions/validationResultObject"
+			},
+			"properties": {
+				"validationPassed": {
+					"type": "boolean"
+				}
+			},
+			"patternProperties": {
+				"Validation$": {
+					"$ref": "#/definitions/validationResultObject"
+				}
+			},
+			"required": [
+				"validationPassed"
+			],
+			"additionalProperties": false
+		}
+	}
+}
