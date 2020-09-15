@@ -1,0 +1,82 @@
+{
+	"validationPassed": true,
+	"unzipValidation": {
+		"validationPassed": true,
+		"validationType": "unzipValidation",
+		"containsWarnings": false
+	},
+	"xsdValidation": {
+		"validationPassed": true,
+		"validationType": "xsdValidation",
+		"containsWarnings": false
+	},
+	"structMaps": {
+		"structMap_s1": {
+			"validationPassed": true,	
+			"psiValidation": {
+				"validationPassed": true,
+				"validationType": "psiValidation",
+				"containsWarnings": false
+			},
+			"hrefsValidation": {
+				"validationPassed": true,
+				"validationType": "hrefsValidation",
+				"containsWarnings": false
+			},			
+			"checksumValidation": {
+				"validationPassed": true,
+				"validationType": "checksumValidation",
+				"containsWarnings": false
+			},			
+			"mime-typeValidation": {
+				"validationPassed": true,
+				"validationType": "mime-typeValidation",
+				"containsWarnings": false
+			}
+		},
+		"structMap_s2": {
+			"validationPassed": true,
+			"psiValidation": {
+				"validationPassed": true,
+				"validationType": "psiValidation",
+				"containsWarnings": false
+			},
+			"hrefsValidation": {
+				"validationPassed": false,
+				"validationType": "hrefsValidation",
+				"containsWarnings": false,
+				"validationReport": {
+					"report": "The href ... points on a missing file",
+					"mimetype" : "text/turtle"
+				}
+			}
+		},
+		"structMap_s3": {
+			"validationPassed": true,
+			"psiValidation": {
+				"validationPassed": false,
+				"validationType": "psiValidation",
+				"containsWarnings": false,
+				"validationReport": {
+					"report": "Be careful, the psi ... will be deprecated soon.",
+					"mimetype" : "text/turtle"
+				}
+			},
+			"hrefsValidation": {
+				"validationPassed": true,
+				"validationType": "hrefsValidation",
+				"containsWarnings": false
+			},			
+			"checksumsValidation": {
+				"validationPassed": true,
+				"validationType": "checksumValidation",
+				"containsWarnings": false
+			},			
+			"mimeTypeValidation": {
+				"validationPassed": true,
+				"validationType": "mime-typeValidation",
+				"containsWarnings": false
+			}
+		}
+	}
+}
