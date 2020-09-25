@@ -4,7 +4,7 @@
     <bpmn:participant id="Participant_09y6peo" name="Prelock Validation" processRef="Process_576e8dd3-6ac2-457e-90d1-ba3f2ed19b31" />
   </bpmn:collaboration>
   <bpmn:process id="Process_576e8dd3-6ac2-457e-90d1-ba3f2ed19b31" isExecutable="true">
-    <bpmn:serviceTask id="Activity_17cee12" name="Validate xsd">
+    <bpmn:serviceTask id="Activity_17cee12" name="Validate xsd" camunda:class="com.example.delegate.Delegate">
       <bpmn:incoming>Flow_1cnlaot</bpmn:incoming>
       <bpmn:outgoing>Flow_15q8ahc</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -34,19 +34,14 @@
       <bpmn:outgoing>SequenceFlow_0i6sp1w</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0564w02</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:serviceTask id="Activity_0iwc7pk" name="Validate checksums">
+    <bpmn:serviceTask id="Activity_0iwc7pk" name="Validate checksums" camunda:class="com.example.delegate.Delegate">
       <bpmn:incoming>SequenceFlow_0564w02</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1jgr85q</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0va1k0z</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_1mmwc7q" name="Validate mimeType">
+    <bpmn:serviceTask id="Activity_1mmwc7q" name="Validate mimeType" camunda:class="com.example.delegate.Delegate">
       <bpmn:incoming>SequenceFlow_0i6sp1w</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_00htce4</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0gng7yh</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:parallelGateway id="ExclusiveGateway_1hrqcfj">
-      <bpmn:incoming>SequenceFlow_00htce4</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_1jgr85q</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1o6vc8z</bpmn:outgoing>
-    </bpmn:parallelGateway>
     <bpmn:sequenceFlow id="Flow_0s3j4gp" sourceRef="Gateway_1h1hwyy" targetRef="Activity_0ss5tq0" />
     <bpmn:sequenceFlow id="Flow_1ma7fbi" sourceRef="Activity_0ss5tq0" targetRef="Gateway_0k1phos" />
     <bpmn:sequenceFlow id="Flow_1s6llke" name="Yes" sourceRef="Gateway_0k1phos" targetRef="ExclusiveGateway_0ar9xxy">
@@ -57,10 +52,7 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0i6sp1w" sourceRef="ExclusiveGateway_0ar9xxy" targetRef="Activity_1mmwc7q" />
     <bpmn:sequenceFlow id="SequenceFlow_0564w02" sourceRef="ExclusiveGateway_0ar9xxy" targetRef="Activity_0iwc7pk" />
-    <bpmn:sequenceFlow id="SequenceFlow_1jgr85q" sourceRef="Activity_0iwc7pk" targetRef="ExclusiveGateway_1hrqcfj" />
-    <bpmn:sequenceFlow id="SequenceFlow_00htce4" sourceRef="Activity_1mmwc7q" targetRef="ExclusiveGateway_1hrqcfj" />
-    <bpmn:sequenceFlow id="SequenceFlow_1o6vc8z" sourceRef="ExclusiveGateway_1hrqcfj" targetRef="ExclusiveGateway_0zu7khu" />
-    <bpmn:serviceTask id="Activity_0ss5tq0" name="Validate hrefs">
+    <bpmn:serviceTask id="Activity_0ss5tq0" name="Validate hrefs" camunda:class="com.example.delegate.Delegate">
       <bpmn:incoming>Flow_0s3j4gp</bpmn:incoming>
       <bpmn:outgoing>Flow_1ma7fbi</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -75,7 +67,7 @@
       <bpmn:outgoing>Flow_12emsjq</bpmn:outgoing>
     </bpmn:parallelGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0udr06q" sourceRef="Activity_1pn8sdx" targetRef="ExclusiveGateway_0zu7khu" />
-    <bpmn:serviceTask id="Activity_1pn8sdx" name="Validate psi">
+    <bpmn:serviceTask id="Activity_1pn8sdx" name="Validate psi" camunda:class="com.example.delegate.Delegate">
       <bpmn:incoming>Flow_12emsjq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0udr06q</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -85,7 +77,7 @@
       <bpmn:outgoing>SequenceFlow_04wzqq1</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1694hr6</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:serviceTask id="Task_112ex9g" name="Send Fail">
+    <bpmn:serviceTask id="Task_112ex9g" name="Send Fail" camunda:class="com.example.delegate.Delegate">
       <bpmn:incoming>Flow_1sh9w9u</bpmn:incoming>
       <bpmn:incoming>Flow_1naw4gg</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_044bt48</bpmn:incoming>
@@ -95,7 +87,7 @@
     <bpmn:endEvent id="Event_1utzl20">
       <bpmn:incoming>SequenceFlow_0p3ewm3</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:serviceTask id="Task_0len2sd" name="Send PrelockValidationEnd">
+    <bpmn:serviceTask id="Task_0len2sd" name="Send PrelockValidationEnd" camunda:class="com.example.delegate.Delegate">
       <bpmn:incoming>SequenceFlow_04wzqq1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0p3ewm3</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -105,18 +97,15 @@
     <bpmn:sequenceFlow id="SequenceFlow_04wzqq1" name="Yes" sourceRef="ExclusiveGateway_0wdxy9g" targetRef="Task_0len2sd">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${(mimetype_err==false)&amp;&amp;(checksum_err==false)&amp;&amp;(psi_err==false)}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1694hr6" name="No" sourceRef="ExclusiveGateway_0wdxy9g" targetRef="Task_112ex9g" />
+    <bpmn:sequenceFlow id="SequenceFlow_1694hr6" name="No" sourceRef="ExclusiveGateway_0wdxy9g" targetRef="Task_112ex9g">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${(mimetype_err==true)||(checksum_err==true)||(psi_err==true)}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_147alxg" sourceRef="Task_112ex9g" targetRef="EndEvent_1dva3il" />
     <bpmn:sequenceFlow id="SequenceFlow_0p3ewm3" sourceRef="Task_0len2sd" targetRef="Event_1utzl20" />
-    <bpmn:parallelGateway id="ExclusiveGateway_0zu7khu">
-      <bpmn:incoming>SequenceFlow_1o6vc8z</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0udr06q</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0c4492s</bpmn:outgoing>
-    </bpmn:parallelGateway>
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_13x7ayf</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="Activity_1yxz6ki" name="Unzip and validate package">
+    <bpmn:serviceTask id="Activity_1yxz6ki" name="Unzip and validate package" camunda:class="com.example.delegate.Delegate">
       <bpmn:incoming>Flow_13x7ayf</bpmn:incoming>
       <bpmn:outgoing>Flow_17d2nym</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -125,6 +114,14 @@
       <bpmn:outgoing>Flow_1cnlaot</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_044bt48</bpmn:outgoing>
     </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0va1k0z" sourceRef="Activity_0iwc7pk" targetRef="ExclusiveGateway_0zu7khu" />
+    <bpmn:sequenceFlow id="SequenceFlow_0gng7yh" sourceRef="Activity_1mmwc7q" targetRef="ExclusiveGateway_0zu7khu" />
+    <bpmn:parallelGateway id="ExclusiveGateway_0zu7khu">
+      <bpmn:incoming>SequenceFlow_0udr06q</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0va1k0z</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0gng7yh</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0c4492s</bpmn:outgoing>
+    </bpmn:parallelGateway>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0yidze6">
@@ -278,23 +275,6 @@
           <dc:Bounds x="1679" y="252" width="18" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ParallelGateway_0d6gusp_di" bpmnElement="ExclusiveGateway_1hrqcfj">
-        <dc:Bounds x="1360" y="245" width="50" height="50" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_00htce4_di" bpmnElement="SequenceFlow_00htce4">
-        <di:waypoint x="1312" y="190" />
-        <di:waypoint x="1385" y="190" />
-        <di:waypoint x="1385" y="245" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1jgr85q_di" bpmnElement="SequenceFlow_1jgr85q">
-        <di:waypoint x="1312" y="353" />
-        <di:waypoint x="1385" y="353" />
-        <di:waypoint x="1385" y="295" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1o6vc8z_di" bpmnElement="SequenceFlow_1o6vc8z">
-        <di:waypoint x="1410" y="270" />
-        <di:waypoint x="1475" y="270" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1694hr6_di" bpmnElement="SequenceFlow_1694hr6">
         <di:waypoint x="1629" y="295" />
         <di:waypoint x="1629" y="440" />
@@ -316,15 +296,25 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_0udr06q_di" bpmnElement="SequenceFlow_0udr06q">
         <di:waypoint x="980" y="129" />
-        <di:waypoint x="1500" y="129" />
-        <di:waypoint x="1500" y="240" />
+        <di:waypoint x="1450" y="129" />
+        <di:waypoint x="1450" y="245" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ParallelGateway_00832c3_di" bpmnElement="ExclusiveGateway_0zu7khu">
-        <dc:Bounds x="1475" y="245" width="50" height="50" />
+        <dc:Bounds x="1425" y="245" width="50" height="50" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0c4492s_di" bpmnElement="SequenceFlow_0c4492s">
-        <di:waypoint x="1525" y="270" />
+        <di:waypoint x="1475" y="270" />
         <di:waypoint x="1604" y="270" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0va1k0z_di" bpmnElement="SequenceFlow_0va1k0z">
+        <di:waypoint x="1312" y="353" />
+        <di:waypoint x="1450" y="353" />
+        <di:waypoint x="1450" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0gng7yh_di" bpmnElement="SequenceFlow_0gng7yh">
+        <di:waypoint x="1262" y="230" />
+        <di:waypoint x="1262" y="270" />
+        <di:waypoint x="1425" y="270" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
