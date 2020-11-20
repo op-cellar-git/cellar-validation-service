@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.6.0" camunda:diagramRelationId="c2ed906d-5ed1-41fe-a98d-27151e8ebcac">
-  <bpmn:collaboration id="Collaboration_0yidze6">
-    <bpmn:participant id="Participant_09y6peo" name="Prelock Validation" processRef="Process_576e8dd3-6ac2-457e-90d1-ba3f2ed19b31" />
+  <bpmn:collaboration id="preLock">
+    <bpmn:participant id="prelock_validation" name="Prelock Validation" processRef="process_prelock_validation" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_576e8dd3-6ac2-457e-90d1-ba3f2ed19b31" isExecutable="true">
-    <bpmn:serviceTask id="Activity_17cee12" name="Validate xsd" camunda:class="com.example.delegate.Delegate">
+  <bpmn:process id="process_prelock_validation" isExecutable="true">
+    <bpmn:serviceTask id="xsd" name="Validate xsd" camunda:class="com.example.delegate.Delegate">
       <bpmn:incoming>Flow_1cnlaot</bpmn:incoming>
       <bpmn:outgoing>Flow_15q8ahc</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -13,46 +13,62 @@
       <bpmn:outgoing>SequenceFlow_0gunt22</bpmn:outgoing>
       <bpmn:outgoing>Flow_1naw4gg</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_13x7ayf" sourceRef="StartEvent_1" targetRef="Activity_1yxz6ki" />
-    <bpmn:sequenceFlow id="Flow_17d2nym" sourceRef="Activity_1yxz6ki" targetRef="Gateway_0pbcky7" />
-    <bpmn:sequenceFlow id="Flow_1cnlaot" name="Yes" sourceRef="Gateway_0pbcky7" targetRef="Activity_17cee12">
+    <bpmn:sequenceFlow id="Flow_13x7ayf" sourceRef="StartEvent_1" targetRef="unzip" />
+    <bpmn:sequenceFlow id="Flow_17d2nym" sourceRef="unzip" targetRef="Gateway_0pbcky7" />
+    <bpmn:sequenceFlow id="Flow_1cnlaot" name="Yes" sourceRef="Gateway_0pbcky7" targetRef="xsd">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${unzip_err==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_044bt48" sourceRef="Gateway_0pbcky7" targetRef="Task_112ex9g">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${unzip_err==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_15q8ahc" sourceRef="Activity_17cee12" targetRef="ExclusiveGateway_0bvrye4" />
+    <bpmn:sequenceFlow id="Flow_15q8ahc" sourceRef="xsd" targetRef="ExclusiveGateway_0bvrye4" />
     <bpmn:sequenceFlow id="Flow_1naw4gg" name="No" sourceRef="ExclusiveGateway_0bvrye4" targetRef="Task_112ex9g">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${unzip_err==true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${xsd_err==true}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_0gunt22" name="Yes" sourceRef="ExclusiveGateway_0bvrye4" targetRef="Gateway_1h1hwyy">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${xsd_err==false}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_12emsjq" sourceRef="Gateway_1h1hwyy" targetRef="Activity_1pn8sdx" />
+    <bpmn:sequenceFlow id="Flow_12emsjq" sourceRef="Gateway_1h1hwyy" targetRef="psi" />
     <bpmn:parallelGateway id="ExclusiveGateway_0ar9xxy">
       <bpmn:incoming>Flow_1s6llke</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0i6sp1w</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_0564w02</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:serviceTask id="Activity_0iwc7pk" name="Validate checksums" camunda:class="com.example.delegate.Delegate">
+    <bpmn:serviceTask id="checksums" name="Validate checksums" camunda:class="com.example.delegate.Delegate">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="structMapIndependant" value="true" />
+        </camunda:properties>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0564w02</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0va1k0z</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_1fo0yhu</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_1mmwc7q" name="Validate mimeType" camunda:class="com.example.delegate.Delegate">
+    <bpmn:serviceTask id="mimetype" name="Validate mimeType" camunda:class="com.example.delegate.Delegate">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="structMapIndependant" value="true" />
+        </camunda:properties>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0i6sp1w</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_0gng7yh</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0ckj8mz</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0s3j4gp" sourceRef="Gateway_1h1hwyy" targetRef="Activity_0ss5tq0" />
-    <bpmn:sequenceFlow id="Flow_1ma7fbi" sourceRef="Activity_0ss5tq0" targetRef="Gateway_0k1phos" />
+    <bpmn:sequenceFlow id="Flow_0s3j4gp" sourceRef="Gateway_1h1hwyy" targetRef="hrefs" />
+    <bpmn:sequenceFlow id="Flow_1ma7fbi" sourceRef="hrefs" targetRef="Gateway_0k1phos" />
     <bpmn:sequenceFlow id="Flow_1s6llke" name="Yes" sourceRef="Gateway_0k1phos" targetRef="ExclusiveGateway_0ar9xxy">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${hrefs_err==false}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${(hrefs_err==false)}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_1sh9w9u" name="No" sourceRef="Gateway_0k1phos" targetRef="Task_112ex9g">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${hrefs_err==true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${(hrefs_err==true)||(structMap_err==true)}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_0i6sp1w" sourceRef="ExclusiveGateway_0ar9xxy" targetRef="Activity_1mmwc7q" />
-    <bpmn:sequenceFlow id="SequenceFlow_0564w02" sourceRef="ExclusiveGateway_0ar9xxy" targetRef="Activity_0iwc7pk" />
-    <bpmn:serviceTask id="Activity_0ss5tq0" name="Validate hrefs" camunda:class="com.example.delegate.Delegate">
+    <bpmn:sequenceFlow id="SequenceFlow_0i6sp1w" sourceRef="ExclusiveGateway_0ar9xxy" targetRef="mimetype" />
+    <bpmn:sequenceFlow id="SequenceFlow_0564w02" sourceRef="ExclusiveGateway_0ar9xxy" targetRef="checksums" />
+    <bpmn:serviceTask id="hrefs" name="Validate hrefs" camunda:class="com.example.delegate.Delegate">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="structMapIndependant" value="true" />
+          <camunda:property name="structMapStepsStart" value="true" />
+        </camunda:properties>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0s3j4gp</bpmn:incoming>
       <bpmn:outgoing>Flow_1ma7fbi</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -66,8 +82,14 @@
       <bpmn:outgoing>Flow_0s3j4gp</bpmn:outgoing>
       <bpmn:outgoing>Flow_12emsjq</bpmn:outgoing>
     </bpmn:parallelGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0udr06q" sourceRef="Activity_1pn8sdx" targetRef="ExclusiveGateway_0zu7khu" />
-    <bpmn:serviceTask id="Activity_1pn8sdx" name="Validate psi" camunda:class="com.example.delegate.Delegate">
+    <bpmn:sequenceFlow id="SequenceFlow_0udr06q" sourceRef="psi" targetRef="ExclusiveGateway_0zu7khu" />
+    <bpmn:serviceTask id="psi" name="Validate psi" camunda:class="com.example.delegate.Delegate">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="structMapStepsStart" value="true" />
+          <camunda:property name="structMapIndependant" value="true" />
+        </camunda:properties>
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_12emsjq</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0udr06q</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -95,17 +117,17 @@
       <bpmn:incoming>SequenceFlow_147alxg</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_04wzqq1" name="Yes" sourceRef="ExclusiveGateway_0wdxy9g" targetRef="Task_0len2sd">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${(mimetype_err==false)&amp;&amp;(checksum_err==false)&amp;&amp;(psi_err==false)}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${(mimetype_err==false)&amp;&amp;(checksums_err==false)&amp;&amp;(psi_err==false)}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1694hr6" name="No" sourceRef="ExclusiveGateway_0wdxy9g" targetRef="Task_112ex9g">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${(mimetype_err==true)||(checksum_err==true)||(psi_err==true)}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${(mimetype_err==true)||(checksums_err==true)||(psi_err==true)}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_147alxg" sourceRef="Task_112ex9g" targetRef="EndEvent_1dva3il" />
     <bpmn:sequenceFlow id="SequenceFlow_0p3ewm3" sourceRef="Task_0len2sd" targetRef="Event_1utzl20" />
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_13x7ayf</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:serviceTask id="Activity_1yxz6ki" name="Unzip and validate package" camunda:class="com.example.delegate.Delegate">
+    <bpmn:serviceTask id="unzip" name="Unzip and validate package" camunda:class="com.example.delegate.Delegate">
       <bpmn:incoming>Flow_13x7ayf</bpmn:incoming>
       <bpmn:outgoing>Flow_17d2nym</bpmn:outgoing>
     </bpmn:serviceTask>
@@ -114,18 +136,23 @@
       <bpmn:outgoing>Flow_1cnlaot</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_044bt48</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="SequenceFlow_0va1k0z" sourceRef="Activity_0iwc7pk" targetRef="ExclusiveGateway_0zu7khu" />
-    <bpmn:sequenceFlow id="SequenceFlow_0gng7yh" sourceRef="Activity_1mmwc7q" targetRef="ExclusiveGateway_0zu7khu" />
     <bpmn:parallelGateway id="ExclusiveGateway_0zu7khu">
       <bpmn:incoming>SequenceFlow_0udr06q</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0va1k0z</bpmn:incoming>
-      <bpmn:incoming>SequenceFlow_0gng7yh</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_15o83bh</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0c4492s</bpmn:outgoing>
     </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_0ckj8mz" sourceRef="mimetype" targetRef="ExclusiveGateway_0cutjqc" />
+    <bpmn:parallelGateway id="ExclusiveGateway_0cutjqc">
+      <bpmn:incoming>SequenceFlow_0ckj8mz</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1fo0yhu</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_15o83bh</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:sequenceFlow id="SequenceFlow_1fo0yhu" sourceRef="checksums" targetRef="ExclusiveGateway_0cutjqc" />
+    <bpmn:sequenceFlow id="SequenceFlow_15o83bh" sourceRef="ExclusiveGateway_0cutjqc" targetRef="ExclusiveGateway_0zu7khu" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0yidze6">
-      <bpmndi:BPMNShape id="Participant_09y6peo_di" bpmnElement="Participant_09y6peo" isHorizontal="true">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="preLock">
+      <bpmndi:BPMNShape id="Participant_09y6peo_di" bpmnElement="prelock_validation" isHorizontal="true">
         <dc:Bounds x="161" y="79" width="1821" height="481" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_0bvrye4_di" bpmnElement="ExclusiveGateway_0bvrye4" isMarkerVisible="true">
@@ -233,7 +260,7 @@
         <di:waypoint x="1152" y="353" />
         <di:waypoint x="1212" y="353" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="ServiceTask_0xhtw8y_di" bpmnElement="Activity_1yxz6ki">
+      <bpmndi:BPMNShape id="ServiceTask_0xhtw8y_di" bpmnElement="unzip">
         <dc:Bounds x="284" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_044bt48_di" bpmnElement="SequenceFlow_044bt48">
@@ -247,19 +274,19 @@
           <dc:Bounds x="1550" y="236" width="68" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1cspj2g_di" bpmnElement="Activity_17cee12">
+      <bpmndi:BPMNShape id="ServiceTask_1cspj2g_di" bpmnElement="xsd">
         <dc:Bounds x="560" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_1rcg2ur_di" bpmnElement="Activity_1pn8sdx">
+      <bpmndi:BPMNShape id="ServiceTask_1rcg2ur_di" bpmnElement="psi">
         <dc:Bounds x="880" y="89" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0jptgbm_di" bpmnElement="Activity_0ss5tq0">
+      <bpmndi:BPMNShape id="ServiceTask_0jptgbm_di" bpmnElement="hrefs">
         <dc:Bounds x="880" y="230" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0lszwg0_di" bpmnElement="Activity_1mmwc7q">
+      <bpmndi:BPMNShape id="ServiceTask_0lszwg0_di" bpmnElement="mimetype">
         <dc:Bounds x="1212" y="150" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0oznu5u_di" bpmnElement="Activity_0iwc7pk">
+      <bpmndi:BPMNShape id="ServiceTask_0oznu5u_di" bpmnElement="checksums">
         <dc:Bounds x="1212" y="313" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0j7dk7k_di" bpmnElement="Task_0len2sd" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
@@ -306,14 +333,21 @@
         <di:waypoint x="1475" y="270" />
         <di:waypoint x="1604" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0va1k0z_di" bpmnElement="SequenceFlow_0va1k0z">
-        <di:waypoint x="1312" y="353" />
-        <di:waypoint x="1450" y="353" />
-        <di:waypoint x="1450" y="295" />
+      <bpmndi:BPMNEdge id="SequenceFlow_0ckj8mz_di" bpmnElement="SequenceFlow_0ckj8mz">
+        <di:waypoint x="1312" y="190" />
+        <di:waypoint x="1350" y="190" />
+        <di:waypoint x="1350" y="245" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0gng7yh_di" bpmnElement="SequenceFlow_0gng7yh">
-        <di:waypoint x="1262" y="230" />
-        <di:waypoint x="1262" y="270" />
+      <bpmndi:BPMNShape id="ParallelGateway_09nmj35_di" bpmnElement="ExclusiveGateway_0cutjqc">
+        <dc:Bounds x="1325" y="245" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1fo0yhu_di" bpmnElement="SequenceFlow_1fo0yhu">
+        <di:waypoint x="1312" y="353" />
+        <di:waypoint x="1350" y="353" />
+        <di:waypoint x="1350" y="295" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_15o83bh_di" bpmnElement="SequenceFlow_15o83bh">
+        <di:waypoint x="1375" y="270" />
         <di:waypoint x="1425" y="270" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
